@@ -24,20 +24,20 @@ nome_ristorante character varying(64),
 proprietario character varying(64),
 indirizzo character varying(64),
 civico character varying(5),
-cap integer,
+cap character varying(5),
 numero_partita_iva character varying(11)
 );
 
 --Creazione tabella SALA
 CREATE TABLE sala(
-codice_sala integer,
+codice_sala character varying(4),
 nome_sala character varying(64),
 numero_tavoli integer
 );
 
 --Creazione tabella TAVOLO
 CREATE TABLE tavolo(
-codice_tavolo integer,
+codice_tavolo character varying(4),
 numero_massimo_persone integer
 );
 
