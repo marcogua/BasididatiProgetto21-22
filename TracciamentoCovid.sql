@@ -1,6 +1,14 @@
 --Creazione del database
 CREATE DATABASE TracciamentoCovidRistoranti;
 
+--Creazione delle enumerazioni
+--Enumerazione per lo stato del persona che efettua la segnalazione
+CREATE DOMAIN stato AS character varying(8)
+CHECK(
+    VALUE ~ 'Positivo'
+    OR VALUE ~ 'Negativo'
+);
+
 --Creazione delle tabelle
 
 --Creazione tabella CLIENTE
@@ -49,7 +57,8 @@ numero_telefono character varying(10),
 mansione character varying(64)
 );
 
---Creazione tabella THEDIVISION ovvero persona infetta
-CREATE TABLE theDivision(
-stato_Covid19 boolean
+--Creazione tabella SEGNALAZIONE
+CREATE TABLE segnalazione(
+stato_Covid19 stato,
+data_segnalazione date
 );
