@@ -2,6 +2,7 @@
 CREATE DATABASE TracciamentoCovidRistoranti;
 
 --Creazione delle enumerazioni
+
 --Enumerazione per lo stato del persona che efettua la segnalazione
 CREATE DOMAIN stato AS character varying(8)
 CHECK(
@@ -62,3 +63,9 @@ CREATE TABLE segnalazione(
 stato_Covid19 stato,
 data_segnalazione date
 );
+
+--Creazione delle chiavi primarie e chiavi esterne
+
+--Creazione dei principali check
+
+--Creazione dei trigger
