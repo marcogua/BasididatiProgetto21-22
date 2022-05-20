@@ -70,11 +70,11 @@ id_tavolata character varying(12) NOT NULL UNIQUE
 
 --Creazione delle chiavi primarie e chiavi esterne
 
---Chiave primaria per la tabelle ristorante
+--Chiave primaria per la tabelle RISTORANTE
 ALTER TABLE ristorante
     ADD CONSTRAINT PK_ristorante PRIMARY KEY(p_iva);
 
---Chiavi primarie e chiave esterna per la tabella sala
+--Chiavi primarie e chiave esterna per la tabella SALA
 ALTER TABLE sala
     ADD CONSTRAINT PK_sala
         PRIMARY KEY(codice_sala),
@@ -82,7 +82,7 @@ ALTER TABLE sala
         FOREIGN KEY(p_iva)
             REFERENCES ristorante(p_iva);
 
---Chiavi primarie e esterne per la tabella tavola
+--Chiavi primarie e esterne per la tabella TAVOLA
 ALTER TABLE tavola
     ADD CONSTRAINT PK_tavola
         PRIMARY KEY(numero_tavola),
@@ -90,7 +90,7 @@ ALTER TABLE tavola
         FOREIGN KEY(codice_sala)
             REFERENCES sala(codice_sala)
 
---Chiavi primarie e esterne per la tabella tavolata
+--Chiavi primarie e esterne per la tabella TAVOLATA
 ALTER TABLE tavolata
     ADD CONSTRAINT PK_tavolata
         PRIMARY KEY(id_tavolata),
@@ -98,7 +98,7 @@ ALTER TABLE tavolata
         FOREIGN KEY(nt)
             REFERENCES tavola(numero_tavola);
 
---Chiavi esterne per la tabella vicinanza
+--Chiavi esterne per la tabella VICINANZA
 ALTER TABLE vicinanza
     ADD CONSTRAINT FK_vicinanza1
         FOREIGN KEY(ntc)
@@ -107,7 +107,7 @@ ALTER TABLE vicinanza
         FOREIGN KEY(nts)
             REFERENCES tavola(numero_tavola);
 
---Chiavi primarie e esterne per la tabella segnalazione
+--Chiavi primarie e esterne per la tabella SEGNALAZIONE
 ALTER TABLE segnalazione
     ADD CONSTRAINT PK_segnalazione
         PRIMARY KEY(id_segnalazione),
@@ -115,7 +115,7 @@ ALTER TABLE segnalazione
         FOREIGN KEY(tavola)
             REFERENCES tavolata(id_tavolata);
 
---Chiavi esterne per la tabella persona
+--Chiavi esterne per la tabella PERSONA
 ALTER TABLE persona
     ADD CONSTRAINT FK_persona
         FOREIGN KEY(id_tavolata)
