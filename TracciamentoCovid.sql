@@ -28,29 +28,22 @@ CREATE TABLE ristorante(
     civico character varying(5) NOT NULL,
     cap character varying(5) NOT NULL,
     p_iva character varying(11) NOT NULL UNIQUE,
-    nome_proprietario character varying(255) NOT NULL
+    nomeProprietario character varying(255) NOT NULL
 );
 
 --Creazione tabella SALA
 CREATE TABLE sala(
-    codice_sala character varying(12) NOT NULL UNIQUE,
-    nome_sala character varying(255) NOT NULL,
-    numero_tavoli integer NOT NULL,
+    codiceSala character varying(12) NOT NULL UNIQUE,
+    nomeSala character varying(255) NOT NULL,
+    numeroTavoli integer NOT NULL,
     p_iva character varying(11) NOT NULL UNIQUE
 );
 
 --Creazione tabella TAVOLA
 CREATE TABLE tavola(
-    numero_tavola character varying(12) NOT NULL UNIQUE,
-    numero_persone_max integer NOT NULL,
-    codice_sala character varying(12) NOT NULL UNIQUE
-);
-
---Creazione tabella TAVOLATA
-CREATE TABLE tavolata(
-    id_tavolata character varying(12) NOT NULL UNIQUE,
-    orario_arrivo date,
-    nt character varying(12) NOT NULL UNIQUE
+    numeroTavola character varying(12) NOT NULL UNIQUE,
+    numeroPersoneMax integer NOT NULL,
+    codiceSala character varying(12) NOT NULL UNIQUE
 );
 
 --Creazione tabella VICINANZA
@@ -59,11 +52,19 @@ CREATE TABLE vicinanza(
     nts character varying(12) NOT NULL UNIQUE
 );
 
+--Creazione tabella TAVOLATA
+CREATE TABLE tavolata(
+    idTavolata character varying(12) NOT NULL UNIQUE,
+    dataArrivo date NOT NULL,
+    orarioArrivo time NOT NULL,
+    numeroTavolata character varying(12) NOT NULL UNIQUE
+);
+
 --Creazione tabella SEGNALAZIONE
 CREATE TABLE segnalazione(
-    id_segnalazione character varying(64) NOT NULL UNIQUE,
-    stato_Covid stato NOT NULL,
-    data_segnalazione date NOT NULL,
+    idSegnalazione character varying(64) NOT NULL UNIQUE,
+    statoCovid stato NOT NULL,
+    dataSegnalazione date NOT NULL,
     tavolata character varying(12) NOT NULL UNIQUE
 );
 
@@ -72,30 +73,44 @@ CREATE TABLE persona(
     nome character varying(64) NOT NULL,
     cognome character varying(64) NOT NULL,
     telefono character varying(10) NOT NULL UNIQUE,
-    id_tavolata character varying(12) NOT NULL UNIQUE
+    numeroOpt character varying(12) NOT NULL UNIQUE,
+    numeroCartaIdentita character varying(8) NOT NULL UNIQUE
 );
 
 --Creazione tabella PERSONALE
 CREATE TABLE personale(
-    numero_opt integer NOT NULL UNIQUE,
+    numeroOpt character varying(12) NOT NULL UNIQUE,
     mansione mansione NOT NULL
+);
+
+--Creazione tabella SERVITO
+CREATE TABLE servito(
+    numeroOpt character varying(12) NOT NULL UNIQUE,
+    idTavolata character varying(12) NOT NULL UNIQUE
 );
 
 --Creazione tabella AVVENTORE
 CREATE TABLE avventore(
-    numero_carta_identita character varying(8)
+    numeroCartaIdentita character varying(8)
+);
+
+--Creazione tabella PARTECIPA
+CREATE TABLE partecipa(
+    idTavolata character varying(12) NOT NULL UNIQUE,
+    numeroCartaIdentita character varying(8) NOT NULL UNIQUE
 );
 
 --Creazione delle chiavi primarie e chiavi esterne
 
 --Chiave primaria per la tabelle RISTORANTE
 ALTER TABLE ristorante
-    ADD CONSTRAINT PK_ristorante PRIMARY KEY(p_iva);
+    ADD CONSTRAINT PK_ristorante
+        PRIMARY KEY(p_iva);
 
 --Chiavi primarie e chiave esterna per la tabella SALA
 ALTER TABLE sala
     ADD CONSTRAINT PK_sala
-        PRIMARY KEY(codice_sala),
+        PRIMARY KEY(codiceSala),
     ADD CONSTRAINT FK_sala
         FOREIGN KEY(p_iva)
             REFERENCES ristorante(p_iva);
@@ -103,48 +118,79 @@ ALTER TABLE sala
 --Chiavi primarie e esterne per la tabella TAVOLA
 ALTER TABLE tavola
     ADD CONSTRAINT PK_tavola
-        PRIMARY KEY(numero_tavola),
+        PRIMARY KEY(numeroTavola),
     ADD CONSTRAINT FK_tavola
-        FOREIGN KEY(codice_sala)
-            REFERENCES sala(codice_sala)
-
---Chiavi primarie e esterne per la tabella TAVOLATA
-ALTER TABLE tavolata
-    ADD CONSTRAINT PK_tavolata
-        PRIMARY KEY(id_tavolata),
-    ADD CONSTRAINT FK_tavolata
-        FOREIGN KEY(nt)
-            REFERENCES tavola(numero_tavola);
+        FOREIGN KEY(codiceSala)
+            REFERENCES sala(codiceSala);
 
 --Chiavi esterne per la tabella VICINANZA
 ALTER TABLE vicinanza
     ADD CONSTRAINT FK_vicinanza1
         FOREIGN KEY(ntc)
-            REFERENCES tavola(numero_tavola),
+            REFERENCES tavola(numeroTavola),
     ADD CONSTRAINT FK_vicinanza2
         FOREIGN KEY(nts)
-            REFERENCES tavola(numero_tavola);
+            REFERENCES tavola(numeroTavola);
+
+--Chiavi primarie e esterne per la tabella TAVOLATA
+ALTER TABLE tavolata
+    ADD CONSTRAINT PK_tavolata
+        PRIMARY KEY(idTavolata),
+    ADD CONSTRAINT FK_tavolata
+        FOREIGN KEY(numeroTavolata)
+            REFERENCES tavola(numeroTavola);
 
 --Chiavi primarie e esterne per la tabella SEGNALAZIONE
 ALTER TABLE segnalazione
     ADD CONSTRAINT PK_segnalazione
-        PRIMARY KEY(id_segnalazione),
+        PRIMARY KEY(idSegnalazione),
     ADD CONSTRAINT FK_segnalazione
-        FOREIGN KEY(tavola)
-            REFERENCES tavolata(id_tavolata);
+        FOREIGN KEY(tavolata)
+            REFERENCES tavolata(idTavolata);
+
+--Chiavi primarie per la tabella PERSONALE
+ALTER TABLE personale
+    ADD CONSTRAINT PK_personale
+        PRIMARY KEY(numeroOpt);
+
+--Chiavi primarie per la tabella AVVENTORE
+ALTER TABLE avventore
+    ADD CONSTRAINT PK_avventore
+        PRIMARY KEY(numeroCartaIdentita);
 
 --Chiavi esterne per la tabella PERSONA
 ALTER TABLE persona
-    ADD CONSTRAINT FK_persona
-        FOREIGN KEY(id_tavolata)
-            REFERENCES tavolata(id_tavolata)
+    ADD CONSTRAINT FK_persona1
+        FOREIGN KEY(numeroOpt)
+            REFERENCES personale(numeroOpt),
+    ADD CONSTRAINT FK_persona2
+        FOREIGN KEY(numeroCartaIdentita)
+            REFERENCES avventore(numeroCartaIdentita);
+
+--Chiavi esterne per la tabella SERVITO
+ALTER TABLE servito
+    ADD CONSTRAINT FK_servito1
+        FOREIGN KEY(numeroOpt)
+            REFERENCES personale(numeroOpt),
+    ADD CONSTRAINT FK_servito2
+        FOREIGN KEY(idTavolata)
+            REFERENCES tavolata(idTavolata);
+
+--Chiavi esterne per la tabella PARTECIPA
+ALTER TABLE partecipa
+    ADD CONSTRAINT FK_partecipa1
+        FOREIGN KEY(idTavolata)
+            REFERENCES tavolata(idTavolata),
+    ADD CONSTRAINT FK_partecipa2
+        FOREIGN KEY(numeroCartaIdentita)
+            REFERENCES avventore(numeroCartaIdentita);
 
 --Creazione dei principali check
 
 --Creazione dei trigger
 
 --Popolazione del database
-
+/*
 --Popolazione della tabella RISTORANTE
 INSERT INTO ristorante
 VALUES('Pizzeria da Mario','Via Mario Rssi', '33', '80067', '925837209382', 'Mario Giordano');
@@ -162,3 +208,4 @@ INSERT INTO ristorante
 VALUES('Ristorante Da Carola','Via Don Giovanni', '10', '80001', '091287528016', 'Maria De Falco');
 INSERT INTO ristorante
 VALUES('Pizzeria La Dalila','Via Carlo Salvo', '909', '60098', '109982085671', 'Marco Salvato');
+*/
