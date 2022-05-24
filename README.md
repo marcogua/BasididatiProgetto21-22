@@ -7,6 +7,42 @@ Autori:
 |Marco|Guadagno|N86002851|marco.guadagno@studenti.unina.it|
 |Vittorio|Somma|N86002863|vit.somma@studenti.unina.it|
 
+## Spiegazione enumerazioni
+
+### Stato
+
+|Valore|Significato|
+|------|-----------|
+|Positivo|Positivo al Covid-19|
+|Negativo|Negativo al Covid-19|
+
+```SQL
+CREATE DOMAIN stato AS character varying(8)
+    CHECK(
+        VALUE ~ 'Positivo'
+        OR VALUE ~ 'Negativo'
+);
+```
+
+### Mansione
+
+|Valore|Significato|
+|------|-----------|
+|Barman|Lavora nel ruolo di barma|
+|Cameriere|Lavora nel ruolo di cameriere|
+|Cuoco|Lavora nel ruolo di cuoco|
+|DirettoreDiSala|Lavora nel ruolo di direttore di sala|
+
+```SQL
+CREATE DOMAIN mansione AS character varying(16)
+    CHECK(
+        VALUE ~ 'Barman'
+        OR VALUE ~ 'Cameriere'
+        OR VALUE ~ 'Cuoco'
+        OR VALUE ~ 'DirettoreDiSala'
+);
+```
+
 ## Spiegazione tabelle
 
 ### Ristorante
@@ -31,3 +67,5 @@ CREATE TABLE ristorante(
     nome_proprietario character varying(255) NOT NULL
 );
 ```
+
+### Persone
