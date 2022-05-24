@@ -7,13 +7,18 @@ Autori:
 |Marco|Guadagno|N86002851|marco.guadagno@studenti.unina.it|
 |Vittorio|Somma|N86002863|vit.somma@studenti.unina.it|
 
-La prima tabella ristorante è composta dai seguenti attributi:
-nome(il nome del ristorante)
-via(la via dove si trova il ristorante)
-civico(il numero dove si trova il ristorante)
-cap(numero di avviamento postale che serve ad identificare univocamente la città dove si trova il ristorante)
-p_iva(il numero di partita iva del ristorante che lo identifica univocamente)
-nome_proprietario(il nome del proprietario o proprietari del ristorante)
+## Spiegazione tabelle
+
+### Ristorante
+
+|Nome attributo|Significato attributo|Tipo attributo|Sepcifiche|
+|--------------|---------------------|--------------|----------|
+|nome|Il nome del ristorante|Stringa|Not null|
+|via|La via dove si trova il ristorante|Stringa|Not null|
+|civico|il numero dove si trova il ristorante|Stringa|Not null|
+|cap|numero di avviamento postale che serve ad identificare univocamente la città dove si trova il ristorante|Stringa|Not null|
+|p_iva|il numero di partita iva del ristorante che lo identifica univocamente|Stringa|Not null - Unique|
+|nome_proprietario|il nome del proprietario o proprietari del ristorante|Stringa|Not null|
 
 ```SQL
 --Creazione tabella RISTORANTE
