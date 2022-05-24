@@ -6,17 +6,17 @@ CREATE DATABASE TracciamentoCovidRistoranti;
 --Enumerazione per lo stato del persona che efettua la segnalazione
 CREATE DOMAIN stato AS character varying(8)
     CHECK(
-        VALUE ~ 'Positivo'
-        OR VALUE ~ 'Negativo'
+        VALUE = 'Positivo'
+        OR VALUE = 'Negativo'
 );
 
 --Enumerazione per la tipologia di mansioni
 CREATE DOMAIN mansione AS character varying(16)
     CHECK(
-        VALUE ~ 'Barman'
-        OR VALUE ~ 'Cameriere'
-        OR VALUE ~ 'Cuoco'
-        OR VALUE ~ 'DirettoreDiSala'
+        VALUE = 'Barman'
+        OR VALUE = 'Cameriere'
+        OR VALUE = 'Cuoco'
+        OR VALUE = 'DirettoreDiSala'
 );
 
 --Creazione delle tabelle
