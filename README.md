@@ -48,14 +48,14 @@ CREATE DOMAIN mansione AS character varying(16)
 
 ### Ristorante
 
-| Nome attributo    | Significato attributo                                                                                    | Tipo attributo | Sepcifiche        |
-| ----------------- | -------------------------------------------------------------------------------------------------------- | -------------- | ----------------- |
-| nome              | Il nome del ristorante                                                                                   | Stringa        | Not null          |
-| via               | La via dove si trova il ristorante                                                                       | Stringa        | Not null          |
-| civico            | il numero dove si trova il ristorante                                                                    | Stringa        | Not null          |
-| cap               | numero di avviamento postale che serve ad identificare univocamente la città dove si trova il ristorante | Stringa        | Not null          |
-| p_iva             | il numero di partita iva del ristorante che lo identifica univocamente                                   | Stringa        | Not null - Unique |
-| nome_proprietario | il nome del proprietario o proprietari del ristorante                                                    | Stringa        | Not null          |
+| Nome attributo    | Significato attributo                                                                                    | Tipo attributo | Sepcifiche        | Chiave primaria | Chiave esterna |
+| ----------------- | -------------------------------------------------------------------------------------------------------- | -------------- | ----------------- | --------------- | -------------- |
+| nome              | Il nome del ristorante                                                                                   | Stringa        | Not null          |                 |                |
+| via               | La via dove si trova il ristorante                                                                       | Stringa        | Not null          |                 |                |
+| civico            | il numero dove si trova il ristorante                                                                    | Stringa        | Not null          |                 |                |
+| cap               | numero di avviamento postale che serve ad identificare univocamente la città dove si trova il ristorante | Stringa        | Not null          |                 |                |
+| p_iva             | il numero di partita iva del ristorante che lo identifica univocamente                                   | Stringa        | Not null - Unique | x               |                |
+| nome_proprietario | il nome del proprietario o proprietari del ristorante                                                    | Stringa        | Not null          |                 |                |
 
 ```SQL
 --Creazione tabella RISTORANTE
