@@ -80,8 +80,8 @@ CREATE TABLE sala(
     nomeSala character varying(255) NOT NULL,
 --Numero di tavoli presenti nella sala tipo Integer Not Null
     numeroTavoli integer NOT NULL,
---Numero di partita iva del ristorante tipo Striga Not Null Unique
-    p_iva character varying(11) NOT NULL UNIQUE,
+--Numero di partita iva del ristorante tipo Striga Not Null
+    p_iva character varying(11) NOT NULL,
 --Creazione della chiva primaria di sala ovvero codiceSala(codice della sala)
     CONSTRAINT PK_sala
         PRIMARY KEY(codiceSala),
@@ -101,8 +101,8 @@ CREATE TABLE tavola(
     numeroTavola character varying(12) NOT NULL UNIQUE,
 --Numero massimo di persone che possono stare a quel tavolo tipo Integer Not Null
     numeroPersoneMax integer NOT NULL,
---Codice della sala dove si trova il tavolo tipo Stringa Not Null Unique
-    codiceSala character varying(12) NOT NULL UNIQUE,
+--Codice della sala dove si trova il tavolo tipo Stringa Not Null
+    codiceSala character varying(12) NOT NULL,
 --Creazione della chiave primaria per la tabella tavola ovvero numeroTavola
     CONSTRAINT PK_tavola
         PRIMARY KEY(numeroTavola),
@@ -119,9 +119,9 @@ CREATE TABLE tavola(
 --Creazione tabella VICINANZA
 CREATE TABLE vicinanza(
 --Numero della tavola corrente tipo Not Null Unique
-    ntc character varying(12) NOT NULL UNIQUE,
---Numero della tavola succesiva tipo Stringa Not Null Unique
-    nts character varying(12) NOT NULL UNIQUE,
+    ntc character varying(12) NOT NULL,
+--Numero della tavola succesiva tipo Stringa Not Null
+    nts character varying(12) NOT NULL,
 --Creazione della chiave esterna per la tabella vicinanza ovvero ntc che fa riferimento a tavola.numeroTavola
     CONSTRAINT FK_vicinanza1
         FOREIGN KEY(ntc)
@@ -144,8 +144,8 @@ CREATE TABLE tavolata(
     dataArrivo date NOT NULL,
 --Oriario di arrivo della tavolta tipo Time Not Null
     orarioArrivo time NOT NULL,
---Numero che idetifica univocamente la tavola assengata tipo Stringa Not Null Unique
-    numeroTavolata character varying(12) NOT NULL UNIQUE,
+--Numero che idetifica univocamente la tavola assengata tipo Stringa Not Null
+    numeroTavolata character varying(12) NOT NULL,
 --Chiave primaria per la tabella tavolata ovvero idTavolata
     CONSTRAINT PK_tavolata
         PRIMARY KEY(idTavolata),
@@ -238,10 +238,10 @@ CREATE TABLE persona(
 ```SQL
 --Creazione tabella SERVITO
 CREATE TABLE servito(
---Numero che identifica univocamente un membro del personale tipo Stringa Not Null Unique
-    numeroOpt character varying(12) NOT NULL UNIQUE,
---Numero che identifica univocamente una tavolata tipo Strinfa Not Null Unique
-    idTavolata character varying(12) NOT NULL UNIQUE,
+--Numero che identifica univocamente un membro del personale tipo Stringa Not Null
+    numeroOpt character varying(12) NOT NULL,
+--Numero che identifica univocamente una tavolata tipo Stringa Not Null
+    idTavolata character varying(12) NOT NULL,
 --Creazione della chiave esterna per la tabella servito ovvero numeroOtp che fa riferimento a personale.numeroOtp
     CONSTRAINT FK_servito1
         FOREIGN KEY(numeroOpt)
@@ -258,10 +258,10 @@ CREATE TABLE servito(
 ```SQL
 --Creazione tabella PARTECIPA
 CREATE TABLE partecipa(
---Numero che identifica univocamente una tavolata tipo Strinfa Not Null Unique
-    idTavolata character varying(12) NOT NULL UNIQUE,
---Numero carta di identità che identifica univocamente una persona tipo Stringa Not Null Unique
-    numeroCartaIdentita character varying(8) NOT NULL UNIQUE,
+--Numero che identifica univocamente una tavolata tipo Strinfa Not Null
+    idTavolata character varying(12) NOT NULL,
+--Numero carta di identità che identifica univocamente una persona tipo Stringa Not Null
+    numeroCartaIdentita character varying(8) NOT NULL,
 --Creazione della chiave esterna per la tabella partecipa ovvero idTavolata che fa riferimento a tavolata.idTavolata
     CONSTRAINT FK_partecipa1
         FOREIGN KEY(idTavolata)
