@@ -32,7 +32,11 @@ CREATE TABLE ristorante(
 --Codice di avviamento postale della città del ristorante tipo Stringa Not Null
     cap character varying(5) NOT NULL,
 --Numero di partita iva del ristorante tipo Stringa Not Null Unique
+<<<<<<< HEAD
     p_iva character varying(11) NOT NULL,
+=======
+    p_iva character varying(11) NOT NULL UNIQUE,
+>>>>>>> Vittorio
 --Nome del proprietario o dei prorpietari tipo Stringa Not Null
     nomeProprietario character varying(255) NOT NULL,
 --Creazione della chiave primaria di ristorante ovvero p_iva(numero di partita iva)
