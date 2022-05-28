@@ -58,7 +58,7 @@ CREATE TABLE ristorante(
 --Creazione tabella SALA
 CREATE TABLE sala(
 --Codice univoco che identifica una sala tipo Stringa Not Null Unique
-    codiceSala integer NOT NULL,
+    codiceSala integer NOT NULL IDENTITY(1,1),
 --Nome della sala tipo Stringa Not Null
     nomeSala character varying(255) NOT NULL,
 --Numero di tavoli presenti nella sala tipo Integer Not Null
@@ -71,7 +71,9 @@ CREATE TABLE sala(
 --Creazione della chiave esterna di sala ovvero p_iva(numero di partita iva) che fa riferimento a ristorante.p_iva(numero partita iva)
     CONSTRAINT FK_sala
         FOREIGN KEY(p_iva)
-            REFERENCES ristorante(p_iva),
+            REFERENCES ristorante(p_iva)
+                ON UPDATE CASCADE
+                ON DELETE CASCADE,
 --Check per controllare che il nomeSala contenga solo lettere
     CONSTRAINT CHK_nomeSalaSala
         CHECK (nomeSala ~ '^[A-Za-z ]*$'),
@@ -83,7 +85,7 @@ CREATE TABLE sala(
 --Creazione tabella TAVOLA
 CREATE TABLE tavola(
 --Numero che distingue univocamente un tavolo tipo Stringa Not Null Unique
-    numeroTavola integer NOT NULL,
+    numeroTavola integer NOT NULL IDENTITY(1,1),
 --Numero massimo di persone che possono stare a quel tavolo tipo Integer Not Null
     numeroPersoneMax integer NOT NULL,
 --Codice della sala dove si trova il tavolo tipo Stringa Not Null
@@ -95,6 +97,8 @@ CREATE TABLE tavola(
     CONSTRAINT FK_tavola
         FOREIGN KEY(codiceSala)
             REFERENCES sala(codiceSala)
+                ON UPDATE CASCADE
+                ON DELETE CASCADE
 );
 
 --Creazione tabella VICINANZA
@@ -106,17 +110,21 @@ CREATE TABLE vicinanza(
 --Creazione della chiave esterna per la tabella vicinanza ovvero ntc che fa riferimento a tavola.numeroTavola
     CONSTRAINT FK_vicinanza1
         FOREIGN KEY(ntc)
-            REFERENCES tavola(numeroTavola),
+            REFERENCES tavola(numeroTavola)
+                ON UPDATE CASCADE
+                ON DELETE CASCADE,
 --Creazione della chiave esterna per la tabella vicinanza ovvero nts che fa riferimento a tavola.numeroTavola
     CONSTRAINT FK_vicinanza2
         FOREIGN KEY(nts)
             REFERENCES tavola(numeroTavola)
+                ON UPDATE CASCADE
+                ON DELETE CASCADE
 );
 
 --Creazione tabella TAVOLATA
 CREATE TABLE tavolata(
 --Numero che identifica unicovamente una tavolata tipo Stringa Not Null Unique
-    idTavolata integer NOT NULL,
+    idTavolata integer NOT NULL IDENTITY(1,1),
 --Data di arrivo della tavolata tipo Date Not Null
     dataArrivo date NOT NULL,
 --Oriario di arrivo della tavolta tipo Time Not Null
@@ -130,6 +138,8 @@ CREATE TABLE tavolata(
     CONSTRAINT FK_tavolata
         FOREIGN KEY(numeroTavolata)
             REFERENCES tavola(numeroTavola)
+                ON UPDATE CASCADE
+                ON DELETE CASCADE
 );
 
 --Creazione tabella AVVENTORE
@@ -147,7 +157,7 @@ CHECK (numeroCartaIdentita ~ '^[A-Za-z]{2}[0-9]{4}[A-Za-z]{2}.*$')
 --Creazione tabella SEGNALAZIONE
 CREATE TABLE segnalazione(
 --Numero che identifica unicovamente la sengalazione tipo Stringa Not Null Unique
-    idSegnalazione integer NOT NULL,
+    idSegnalazione integer NOT NULL IDENTITY(1,1),
 --Stato della persona che ha inviato la sengalazione tipo Stato Not Null
     statoCovid stato NOT NULL,
 --Data della segnalazione tipo Date Not Null
@@ -162,17 +172,21 @@ CREATE TABLE segnalazione(
 --Creazione della chiave esterna per la tabella sengalazione ovvero tavolata che fa riferimento a tavolata.idTavolata
     CONSTRAINT FK_segnalazione
         FOREIGN KEY(tavolata)
-            REFERENCES tavolata(idTavolata),
+            REFERENCES tavolata(idTavolata)
+                ON UPDATE CASCADE
+                ON DELETE CASCADE,
 --Creazione della seconda chiave esterna per la tabella sengalazione ovvero numeroPersona che fa riferimento a avventore.numeroCartaIdentita
      CONSTRAINT FK_segnalazione2
         FOREIGN KEY(numeroPersona)
             REFERENCES avventore(numeroCartaIdentita)
+                ON UPDATE CASCADE
+                ON DELETE CASCADE
 );
 
 --Creazione tabella PERSONALE
 CREATE TABLE personale(
---Numero che idetifica univocamente ogni membro del peronale tipo Stringa Not Null Unique
-    numeroOpt integer NOT NULL UNIQUE,
+--Numero che idetifica univocamente ogni membro del peronale tipo Stringa Not Null
+    numeroOpt integer NOT NULL IDENTITY(1,1),
 --Mansione assegnata a ogni membro del personale tipo mansione Not Null
     mansione mansione NOT NULL,
 --Creazione della chiave primaria per la tabella personle ovvero numeroOtp
@@ -195,11 +209,15 @@ CREATE TABLE persona(
 --Creazione della chiave esterna per la tabella persona ovvero numeroOtp che fa riferimento a personale.numeroOtp
     CONSTRAINT FK_persona1
         FOREIGN KEY(numeroOpt)
-            REFERENCES personale(numeroOpt),
+            REFERENCES personale(numeroOpt)
+                ON UPDATE CASCADE
+                ON DELETE CASCADE,
 --Creazione della chiave esterna per la tabella persona ovvero numeroCartaIdentita che fa riferimento a avventore.numeroCartaIdentita
     CONSTRAINT FK_persona2
         FOREIGN KEY(numeroCartaIdentita)
-            REFERENCES avventore(numeroCartaIdentita),
+            REFERENCES avventore(numeroCartaIdentita)
+                ON UPDATE CASCADE
+                ON DELETE CASCADE,
 --Check per controllare che il nome contenga solo lettere
     CONSTRAINT CHK_nomePersona
         CHECK (nome ~ '^[A-Za-z]*$'),
@@ -223,11 +241,15 @@ CREATE TABLE servito(
 --Creazione della chiave esterna per la tabella servito ovvero numeroOtp che fa riferimento a personale.numeroOtp
     CONSTRAINT FK_servito1
         FOREIGN KEY(numeroOpt)
-            REFERENCES personale(numeroOpt),
+            REFERENCES personale(numeroOpt)
+                ON UPDATE CASCADE
+                ON DELETE CASCADE,
 --Creazione della chiave esterna per la tabella servito ovvero idTavolata che fa riferimento a tavolata.idTavolata
     CONSTRAINT FK_servito2
         FOREIGN KEY(idTavolata)
             REFERENCES tavolata(idTavolata)
+                ON UPDATE CASCADE
+                ON DELETE CASCADE
 );
 
 --Creazione tabella PARTECIPA
@@ -239,11 +261,15 @@ CREATE TABLE partecipa(
 --Creazione della chiave esterna per la tabella partecipa ovvero idTavolata che fa riferimento a tavolata.idTavolata
     CONSTRAINT FK_partecipa1
         FOREIGN KEY(idTavolata)
-            REFERENCES tavolata(idTavolata),
+            REFERENCES tavolata(idTavolata)
+                ON UPDATE CASCADE
+                ON DELETE CASCADE,
 --Creazione della chiave esterna per la tabella partecipa ovvero numeroCartaIdentita che fa riferimento a avventore.numeroCartaIdentita
     CONSTRAINT FK_partecipa2
         FOREIGN KEY(numeroCartaIdentita)
             REFERENCES avventore(numeroCartaIdentita)
+                ON UPDATE CASCADE
+                ON DELETE CASCADE
 );
 
 --Popolazione del database
