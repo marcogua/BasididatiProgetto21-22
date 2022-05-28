@@ -44,12 +44,12 @@ CREATE TABLE ristorante(
 --Check per controllare che la via contenga solo lettere
     CONSTRAINT CHK_viaRistorante
         CHECK (via ~ '^[A-Za-z]*$'),
---Check per controllare che
+--Check per controllare che il civico contenga solo numeri
     CONSTRAINT CHK_civicoRistorante
-        CHECK (civico ~ '^[A-Za-z]*$'),
+        CHECK (civico ~ '^[0-9]*$'),
 --Check per controllare che il cap contenga solo numeri
     CONSTRAINT CHK_capRistorante
-        CHECK (cap ~ '%[0-9]%'),
+        CHECK (cap ~ '^[0-9]*$'),
 --Check per controllare che la p_iva contenga solo numeri
     CONSTRAINT CHK_p_ivaRistorante
         CHECK (p_iva ~ '^[0-9]*$'),
@@ -187,7 +187,10 @@ CREATE TABLE avventore(
     numeroCartaIdentita character varying(8) NOT NULL UNIQUE,
 --Creazione della chiave primaria per la tabella avventore ovvero numeroCartaIdentita
     CONSTRAINT PK_avventore
-        PRIMARY KEY(numeroCartaIdentita)
+        PRIMARY KEY(numeroCartaIdentita),
+--Check per controllare che il numeriCartaIdentita sia conforme alla carta di indetita nuova
+    CONSTRAINT CHK_numeroCartaIdentitaAvventore
+        CHECK (numeroCartaIdentita ~ '[A-Za-z][A-Z-a-z][0-9][0-9][0-9][0-9][A-Za-z][A-Za-z]')
 );
 
 --Creazione tabella PERSONALE
@@ -235,7 +238,10 @@ CREATE TABLE persona(
         CHECK (telefono ~ '^[0-9]*$'),
 --Check per controllare che il numeroOpt contenga solo numeri
     CONSTRAINT CHK_numeroOptPersona
-        CHECK (numeroOpt ~ '^[0-9]*$')
+        CHECK (numeroOpt ~ '^[0-9]*$'),
+--Check per controllare la validita della carta di identita conforme alla nuova
+    CONSTRAINT CHK_numeroCartaIdentitaPersona
+        CHECK (numeroCartaIdentita ~ '[A-Za-z][A-Z-a-z][0-9][0-9][0-9][0-9][A-Za-z][A-Za-z]')
 );
 
 --Creazione tabella SERVITO
