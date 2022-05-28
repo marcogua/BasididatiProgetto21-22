@@ -189,7 +189,7 @@ CREATE TABLE avventore(
         PRIMARY KEY(numeroCartaIdentita),
 --Check per controllare che il numeriCartaIdentita sia conforme alla carta di indetita nuova
     CONSTRAINT CHK_numeroCartaIdentitaAvventore
-        CHECK (numeroCartaIdentita ~ '[A-Za-z][A-Z-a-z][0-9][0-9][0-9][0-9][A-Za-z][A-Za-z]')
+        CHECK (numeroCartaIdentita ~ '^[A-Za-z]{2}[0-9]{4}[A-Za-z]{2}.*$')
 );
 ```
 
@@ -271,7 +271,7 @@ CREATE TABLE persona(
         CHECK (telefono ~ '^[0-9]*$'),
 --Check per controllare la validita della carta di identita conforme alla nuova
     CONSTRAINT CHK_numeroCartaIdentitaPersona
-        CHECK (numeroCartaIdentita ~ '[A-Za-z][A-Z-a-z][0-9][0-9][0-9][0-9][A-Za-z][A-Za-z]')
+        CHECK (numeroCartaIdentita ~ '^[A-Za-z]{2}[0-9]{4}[A-Za-z]{2}.*$')
 );
 ```
 
