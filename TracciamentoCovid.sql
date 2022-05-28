@@ -40,22 +40,22 @@ CREATE TABLE ristorante(
         PRIMARY KEY(p_iva),
 --Check per controllare che il nome contenga solo lettere
     CONSTRAINT CHK_nomeRistorante
-        CHECK (nome !~ "%[^A-Za-z]%"),
+        CHECK (nome ~ '^[A-Za-z]*$'),
 --Check per controllare che la via contenga solo lettere
     CONSTRAINT CHK_viaRistorante
-        CHECK (via ~ ''),
+        CHECK (via ~ '^[A-Za-z]*$'),
 --Check per controllare che
     CONSTRAINT CHK_civicoRistorante
-        CHECK (civico ~ ''),
+        CHECK (civico ~ '^[A-Za-z]*$'),
 --Check per controllare che il cap contenga solo numeri
     CONSTRAINT CHK_capRistorante
         CHECK (cap ~ '%[0-9]%'),
 --Check per controllare che la p_iva contenga solo numeri
     CONSTRAINT CHK_p_ivaRistorante
-        CHECK (p_iva ~ '%[0-9]%'),
+        CHECK (p_iva ~ '^[0-9]*$'),
 --Check per controllare che il nomeProprietario contenga solo lettere
     CONSTRAINT CHK_nomeProprietarioRistorante
-        CHECK (nomeProprietario ~ '')
+        CHECK (nomeProprietario ~ '^[A-Za-z]*$')
 );
 
 --Creazione tabella SALA
@@ -77,13 +77,13 @@ CREATE TABLE sala(
             REFERENCES ristorante(p_iva),
 --Check per controllare che il codiceSala contenga solo numeri
     CONSTRAINT CHK_codiceSalaSala
-        CHECK (codiceSala ~ '%[0-9]%'),
+        CHECK (codiceSala ~ '^[0-9]*$'),
 --Check per controllare che il nomeSala contenga solo lettere
     CONSTRAINT CHK_nomeSalaSala
-        CHECK (nomeSala ~ ''),
+        CHECK (nomeSala ~ '^[A-Za-z]*$'),
 --Check per controllare che la p_iva contenga solo numeri
     CONSTRAINT CHK_p_ivaSala
-        CHECK (p_iva ~ '%[0-9]%')
+        CHECK (p_iva ~ '^[0-9]*$')
 );
 
 --Creazione tabella TAVOLA
@@ -103,10 +103,10 @@ CREATE TABLE tavola(
             REFERENCES sala(codiceSala),
 --Check per controllare che il numero del tavolo contenga solo numeri
     CONSTRAINT CHK_numeroTavolaTavola
-        CHECK (numeroTavola ~ '%[0-9]%'),
+        CHECK (numeroTavola ~ '^[0-9]*$'),
 --Check per controllare che il codice della sala contenga solo numeri
     CONSTRAINT CHK_codiceSalaTavola
-        CHECK (codiceSala ~ '%[0-9]%')
+        CHECK (codiceSala ~ '^[0-9]*$')
 );
 
 --Creazione tabella VICINANZA
@@ -125,10 +125,10 @@ CREATE TABLE vicinanza(
             REFERENCES tavola(numeroTavola),
 --Check per controllare che ntc contenga solo numeri
     CONSTRAINT CHK_ntcVicinanza
-        CHECK (ntc ~ '%[0-9]%'),
+        CHECK (ntc ~ '^[0-9]*$'),
 --Check per controllare che nts contenga solo numeri
     CONSTRAINT CHK_ntsVicinanza
-        CHECK (nts ~ '%[0-9]%')
+        CHECK (nts ~ '^[0-9]*$')
 );
 
 --Creazione tabella TAVOLATA
@@ -150,10 +150,10 @@ CREATE TABLE tavolata(
             REFERENCES tavola(numeroTavola),
 --Check per controllare che l'idTavolata contenga solo numeri
     CONSTRAINT CHK_idTavolataTavolata
-        CHECK (idTavolata ~ '%[0-9]%'),
+        CHECK (idTavolata ~ '^[0-9]*$'),
 --Check per controllare che il numeroTavolata contenga solo numeri
     CONSTRAINT CHK_numeroTavolataTavolata
-        CHECK (numeroTavolata ~ '%[0-9]%')
+        CHECK (numeroTavolata ~ '^[0-9]*$')
 );
 
 --Creazione tabella SEGNALAZIONE
@@ -166,7 +166,7 @@ CREATE TABLE segnalazione(
     dataSegnalazione date NOT NULL,
 --Tavolata a cui ha partecipato la sengalazione tipo Stringa Not Null
     tavolata character varying(12) NOT NULL,
---Creazione della chiave primaria per la tabella segnalazione ovvero idSegalazione
+--Creazione della chiave primaria per la tabella segnalazione ovvero idSegnalazione
     CONSTRAINT PK_segnalazione
         PRIMARY KEY(idSegnalazione),
 --Creazione della chiave esterna per la tabella sengalazione ovvero tavolata che fa riferimento a tavolata.idTavolata
@@ -175,10 +175,10 @@ CREATE TABLE segnalazione(
             REFERENCES tavolata(idTavolata),
 --Check per controllare che l'idSengnalazione contenga solo numeri
     CONSTRAINT CHK_idSegnalazioneSegnalazione
-        CHECK (idSegalazione ~ '%[0-9]%'),
+        CHECK (idSegnalazione ~ '^[0-9]*$'),
 --Check per controllare che tavolata contenga solo numeri
     CONSTRAINT CHK_tavolataSegnalazione
-        CHECK (tavolata ~ '%[0-9]%')
+        CHECK (tavolata ~ '^[0-9]*$')
 );
 
 --Creazione tabella AVVENTORE
@@ -201,7 +201,7 @@ CREATE TABLE personale(
         PRIMARY KEY(numeroOpt),
 --Check per controllare che il numeroOpt contenga solo numeri
     CONSTRAINT CHK_numeroOptPersonale
-        CHECK (numeroOpt ~ '%[0-9]%')
+        CHECK (numeroOpt ~ '^[0-9]*$')
 );
 
 --Creazione tabella PERSONA
@@ -226,16 +226,16 @@ CREATE TABLE persona(
             REFERENCES avventore(numeroCartaIdentita),
 --Check per controllare che il nome contenga solo lettere
     CONSTRAINT CHK_nomePersona
-        CHECK (nome ~ ''),
+        CHECK (nome ~ '^[A-Za-z]*$'),
 --Check per controllare che il cognome contenga solo lettere
     CONSTRAINT CHK_cognomePersona
-        CHECK (cognome ~ ''),
+        CHECK (cognome ~ '^[A-Za-z]*$'),
 --Check per controllare che telefono contenga solo numeri
     CONSTRAINT CHK_telefonoPersona
-        CHECK (telefono ~ '%[0-9]%'),
+        CHECK (telefono ~ '^[0-9]*$'),
 --Check per controllare che il numeroOpt contenga solo numeri
     CONSTRAINT CHK_numeroOptPersona
-        CHECK (numeroOpt ~ '%[0-9]%')
+        CHECK (numeroOpt ~ '^[0-9]*$')
 );
 
 --Creazione tabella SERVITO
@@ -254,10 +254,10 @@ CREATE TABLE servito(
             REFERENCES tavolata(idTavolata),
 --Check per controllare che il numeroOpt contenga solo numeri
     CONSTRAINT CHK_numeroOptServito
-        CHECK (numeroOpt ~ '%[0-9]%'),
+        CHECK (numeroOpt ~ '^[0-9]*$'),
 --Check per controllare che l'idTavolata contenga solo numeri
     CONSTRAINT CHK_idTavolataServito
-        CHECK (idTavolata ~ '%[0-9]%')
+        CHECK (idTavolata ~ '^[0-9]*$')
 );
 
 --Creazione tabella PARTECIPA
@@ -276,7 +276,7 @@ CREATE TABLE partecipa(
             REFERENCES avventore(numeroCartaIdentita),
 --Check per controllare che l'idTavolata contnga solo numeri
     CONSTRAINT CHK_idTavolataPartecipa
-        CHECK (idTavolata ~ '%[0-9]%')
+        CHECK (idTavolata ~ '^[0-9]*$')
 );
 
 --Popolazione del database
