@@ -166,7 +166,8 @@ CREATE TABLE segnalazione(
     dataSegnalazione date NOT NULL,
 --Tavolata a cui ha partecipato la sengalazione tipo Stringa Not Null
     tavolata character varying(12) NOT NULL,
-
+--Persona che ha fatto la segnalazione
+    numeroPersona character varying(8) NOT NULL,
 --Creazione della chiave primaria per la tabella segnalazione ovvero idSegnalazione
     CONSTRAINT PK_segnalazione
         PRIMARY KEY(idSegnalazione),
@@ -174,6 +175,10 @@ CREATE TABLE segnalazione(
     CONSTRAINT FK_segnalazione
         FOREIGN KEY(tavolata)
             REFERENCES tavolata(idTavolata),
+--Creazione della seconda chiave esterna per la tabella sengalazione ovvero numeroPersona che fa riferimento a avventore.numeroCartaIdentita
+     CONSTRAINT FK_segnalazione2
+        FOREIGN KEY(numeroPersona)
+            REFERENCES avventore(numeroCartaIdentita)
 --Check per controllare che l'idSengnalazione contenga solo numeri
     CONSTRAINT CHK_idSegnalazioneSegnalazione
         CHECK (idSegnalazione ~ '^[0-9]*$'),
@@ -287,22 +292,89 @@ CREATE TABLE partecipa(
 );
 
 --Popolazione del database
-/*
+
 --Popolazione della tabella RISTORANTE
 INSERT INTO ristorante
-VALUES('Pizzeria da Mario','Via Mario Rssi', '33', '80067', '925837209382', 'Mario Giordano');
+    VALUES('Pizzeria da Mario','Via Mario Rssi', '33', '80067', '925837209382', 'Mario Giordano');
+
 INSERT INTO ristorante
-VALUES('Ristorante le 4 terre','Via Saviano Superiore', '21', '80066', '925837209391', 'Luca Marcato');
+    VALUES('Ristorante le 4 terre','Via Saviano Superiore', '21', '80066', '925837209391', 'Luca Marcato');
+
 INSERT INTO ristorante
-VALUES('Ristorante La Viola','Via Carlo II', '11', '80033', '296402817640', 'Antonio Esposito');
+    VALUES('Ristorante La Viola','Via Carlo II', '11', '80033', '296402817640', 'Antonio Esposito');
+
 INSERT INTO ristorante
-VALUES('Ristorante AmoreEterno','Via Sulmona', '7', '80011', '296402817611', 'Maria Sala');
+    VALUES('Ristorante AmoreEterno','Via Sulmona', '7', '80011', '296402817611', 'Maria Sala');
+
 INSERT INTO ristorante
-VALUES('Pizzeria La Scura','Via Enrico Fermi', '203', '00012', '902754019286', 'Martina Sultano');
+    VALUES('Pizzeria La Scura','Via Enrico Fermi', '203', '00012', '902754019286', 'Martina Sultano');
+
 INSERT INTO ristorante
-VALUES('Ristorante La Viola','Via Carlo II', '11', '80033', '296402817640', 'Antonio Esposito');
+    VALUES('La Fornacella','Vico Equenze', '149', '80033', '1239045681276', 'Antonio Crimaldi');
+
 INSERT INTO ristorante
-VALUES('Ristorante Da Carola','Via Don Giovanni', '10', '80001', '091287528016', 'Maria De Falco');
+    VALUES('Ristorante Da Carola','Via Don Giovanni', '10', '80001', '091287528016', 'Maria De Falco');
+
 INSERT INTO ristorante
-VALUES('Pizzeria La Dalila','Via Carlo Salvo', '909', '60098', '109982085671', 'Marco Salvato');
-*/
+    VALUES('Pizzeria La Dalila','Via Carlo Salvo', '909', '60098', '109982085671', 'Marco Salvato');
+
+--Popolazione della tabella SALA
+INSERT INTO Sala
+    VALUES(,'Sala Rossa', 13, '925837209391');
+
+INSERT INTO Sala
+    VALUES(,'Sala Gialla', 18, '925837209391');
+
+INSERT INTO Sala
+    VALUES(,'Sala Blu', 12, '925837209391');
+
+INSERT INTO Sala
+    VALUES(,'Sala Rosa', 12, '925837209391');
+
+INSERT INTO Sala
+    VALUES(,'Sala Verde', 8, '925837209391');
+
+INSERT INTO Sala
+    VALUES(,'Sala Magnum', 22, '925837209391');
+
+INSERT INTO Sala
+    VALUES(,'Londra', 8, '296402817640');
+
+INSERT INTO Sala
+    VALUES(,'Bruxel', 22, '296402817640');
+
+INSERT INTO Sala
+    VALUES(,'Prima', 22, '296402817611');
+
+INSERT INTO Sala
+    VALUES(,'Seconda', 8, '296402817611');
+
+INSERT INTO Sala
+    VALUES(,'Terza', 22, '296402817611');
+
+INSERT INTO Sala
+    VALUES(,'B', 22, '902754019286');
+
+INSERT INTO Sala
+    VALUES(,'D', 8, '902754019286');
+
+INSERT INTO Sala
+    VALUES(,'C', 22, '902754019286');
+
+INSERT INTO Sala
+    VALUES(,'Nobel', 12, '1239045681276');
+
+INSERT INTO Sala
+    VALUES(,'Palma', 28, '1239045681276');
+
+INSERT INTO Sala
+    VALUES(,'Oscar', 42, '1239045681276');
+
+INSERT INTO Sala
+    VALUES(,'Sala Rossa', 32, '091287528016');
+
+INSERT INTO Sala
+    VALUES(,'Piccola', 10, '109982085671');
+
+INSERT INTO Sala
+    VALUES(,'Grande', 19, '109982085671');
