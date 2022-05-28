@@ -37,7 +37,25 @@ CREATE TABLE ristorante(
     nomeProprietario character varying(255) NOT NULL,
 --Creazione della chiave primaria di ristorante ovvero p_iva(numero di partita iva)
     CONSTRAINT PK_ristorante
-        PRIMARY KEY(p_iva)
+        PRIMARY KEY(p_iva),
+--Check per controllare che il nome contenga solo lettere
+    CONSTRAINT CHK_nomeRistorante
+        CHECK (nome !~ "%[^A-Za-z]%"),
+--Check per controllare che la via contenga solo lettere
+    CONSTRAINT CHK_viaRistorante
+        CHECK (via ~ ''),
+--Check per controllare che
+    CONSTRAINT CHK_civicoRistorante
+        CHECK (civico ~ ''),
+--Check per controllare che il cap contenga solo numeri
+    CONSTRAINT CHK_capRistorante
+        CHECK (cap ~ '%[0-9]%'),
+--Check per controllare che la p_iva contenga solo numeri
+    CONSTRAINT CHK_p_ivaRistorante
+        CHECK (p_iva ~ '%[0-9]%'),
+--Check per controllare che il nomeProprietario contenga solo lettere
+    CONSTRAINT CHK_nomeProprietarioRistorante
+        CHECK (nomeProprietario ~ '')
 );
 
 --Creazione tabella SALA
@@ -56,7 +74,16 @@ CREATE TABLE sala(
 --Creazione della chiave esterna di sala ovvero p_iva(numero di partita iva) che fa riferimento a ristorante.p_iva(numero partita iva)
     CONSTRAINT FK_sala
         FOREIGN KEY(p_iva)
-            REFERENCES ristorante(p_iva)
+            REFERENCES ristorante(p_iva),
+--Check per controllare che il codiceSala contenga solo numeri
+    CONSTRAINT CHK_codiceSalaSala
+        CHECK (codiceSala ~ '%[0-9]%'),
+--Check per controllare che il nomeSala contenga solo lettere
+    CONSTRAINT CHK_nomeSalaSala
+        CHECK (nomeSala ~ ''),
+--Check per controllare che la p_iva contenga solo numeri
+    CONSTRAINT CHK_p_ivaSala
+        CHECK (p_iva ~ '%[0-9]%')
 );
 
 --Creazione tabella TAVOLA
@@ -73,7 +100,13 @@ CREATE TABLE tavola(
 --Creazione della chiave esterna di tavola ovvero codiceSala che fa riferimento a sala.codiceSala
     CONSTRAINT FK_tavola
         FOREIGN KEY(codiceSala)
-            REFERENCES sala(codiceSala)
+            REFERENCES sala(codiceSala),
+--Check per controllare che il numero del tavolo contenga solo numeri
+    CONSTRAINT CHK_numeroTavolaTavola
+        CHECK (numeroTavola ~ '%[0-9]%'),
+--Check per controllare che il codice della sala contenga solo numeri
+    CONSTRAINT CHK_codiceSalaTavola
+        CHECK (codiceSala ~ '%[0-9]%')
 );
 
 --Creazione tabella VICINANZA
@@ -89,7 +122,13 @@ CREATE TABLE vicinanza(
 --Creazione della chiave esterna per la tabella vicinanza ovvero nts che fa riferimento a tavola.numeroTavola
     CONSTRAINT FK_vicinanza2
         FOREIGN KEY(nts)
-            REFERENCES tavola(numeroTavola)
+            REFERENCES tavola(numeroTavola),
+--Check per controllare che ntc contenga solo numeri
+    CONSTRAINT CHK_ntcVicinanza
+        CHECK (ntc ~ '%[0-9]%'),
+--Check per controllare che nts contenga solo numeri
+    CONSTRAINT CHK_ntsVicinanza
+        CHECK (nts ~ '%[0-9]%')
 );
 
 --Creazione tabella TAVOLATA
@@ -108,7 +147,13 @@ CREATE TABLE tavolata(
 --Chiave estenra per la tabella tavolata ovvero numeroTavolata che fa riferimento a tavola.numeroTavola
     CONSTRAINT FK_tavolata
         FOREIGN KEY(numeroTavolata)
-            REFERENCES tavola(numeroTavola)
+            REFERENCES tavola(numeroTavola),
+--Check per controllare che l'idTavolata contenga solo numeri
+    CONSTRAINT CHK_idTavolataTavolata
+        CHECK (idTavolata ~ '%[0-9]%'),
+--Check per controllare che il numeroTavolata contenga solo numeri
+    CONSTRAINT CHK_numeroTavolataTavolata
+        CHECK (numeroTavolata ~ '%[0-9]%')
 );
 
 --Creazione tabella SEGNALAZIONE
@@ -127,7 +172,13 @@ CREATE TABLE segnalazione(
 --Creazione della chiave esterna per la tabella sengalazione ovvero tavolata che fa riferimento a tavolata.idTavolata
     CONSTRAINT FK_segnalazione
         FOREIGN KEY(tavolata)
-            REFERENCES tavolata(idTavolata)
+            REFERENCES tavolata(idTavolata),
+--Check per controllare che l'idSengnalazione contenga solo numeri
+    CONSTRAINT CHK_idSegnalazioneSegnalazione
+        CHECK (idSegalazione ~ '%[0-9]%'),
+--Check per controllare che tavolata contenga solo numeri
+    CONSTRAINT CHK_tavolataSegnalazione
+        CHECK (tavolata ~ '%[0-9]%')
 );
 
 --Creazione tabella AVVENTORE
@@ -147,7 +198,10 @@ CREATE TABLE personale(
     mansione mansione NOT NULL,
 --Creazione della chiave primaria per la tabella personle ovvero numeroOtp
     CONSTRAINT PK_personale
-        PRIMARY KEY(numeroOpt)
+        PRIMARY KEY(numeroOpt),
+--Check per controllare che il numeroOpt contenga solo numeri
+    CONSTRAINT CHK_numeroOptPersonale
+        CHECK (numeroOpt ~ '%[0-9]%')
 );
 
 --Creazione tabella PERSONA
@@ -169,7 +223,19 @@ CREATE TABLE persona(
 --Creazione della chiave esterna per la tabella persona ovvero numeroCartaIdentita che fa riferimento a avventore.numeroCartaIdentita
     CONSTRAINT FK_persona2
         FOREIGN KEY(numeroCartaIdentita)
-            REFERENCES avventore(numeroCartaIdentita)
+            REFERENCES avventore(numeroCartaIdentita),
+--Check per controllare che il nome contenga solo lettere
+    CONSTRAINT CHK_nomePersona
+        CHECK (nome ~ ''),
+--Check per controllare che il cognome contenga solo lettere
+    CONSTRAINT CHK_cognomePersona
+        CHECK (cognome ~ ''),
+--Check per controllare che telefono contenga solo numeri
+    CONSTRAINT CHK_telefonoPersona
+        CHECK (telefono ~ '%[0-9]%'),
+--Check per controllare che il numeroOpt contenga solo numeri
+    CONSTRAINT CHK_numeroOptPersona
+        CHECK (numeroOpt ~ '%[0-9]%')
 );
 
 --Creazione tabella SERVITO
@@ -185,7 +251,13 @@ CREATE TABLE servito(
 --Creazione della chiave esterna per la tabella servito ovvero idTavolata che fa riferimento a tavolata.idTavolata
     CONSTRAINT FK_servito2
         FOREIGN KEY(idTavolata)
-            REFERENCES tavolata(idTavolata)
+            REFERENCES tavolata(idTavolata),
+--Check per controllare che il numeroOpt contenga solo numeri
+    CONSTRAINT CHK_numeroOptServito
+        CHECK (numeroOpt ~ '%[0-9]%'),
+--Check per controllare che l'idTavolata contenga solo numeri
+    CONSTRAINT CHK_idTavolataServito
+        CHECK (idTavolata ~ '%[0-9]%')
 );
 
 --Creazione tabella PARTECIPA
@@ -201,7 +273,10 @@ CREATE TABLE partecipa(
 --Creazione della chiave esterna per la tabella partecipa ovvero numeroCartaIdentita che fa riferimento a avventore.numeroCartaIdentita
     CONSTRAINT FK_partecipa2
         FOREIGN KEY(numeroCartaIdentita)
-            REFERENCES avventore(numeroCartaIdentita)
+            REFERENCES avventore(numeroCartaIdentita),
+--Check per controllare che l'idTavolata contnga solo numeri
+    CONSTRAINT CHK_idTavolataPartecipa
+        CHECK (idTavolata ~ '%[0-9]%')
 );
 
 --Popolazione del database
