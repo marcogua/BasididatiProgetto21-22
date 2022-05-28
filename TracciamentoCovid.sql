@@ -303,61 +303,61 @@ INSERT INTO ristorante
 
 --Popolazione della tabella SALA
 INSERT INTO Sala
-    VALUES(,'Sala Rossa', 13, '925837209391');
+    VALUES(,'Sala Rossa', 13, '25837209391');
 
 INSERT INTO Sala
-    VALUES(,'Sala Gialla', 18, '925837209391');
+    VALUES(,'Sala Gialla', 18, '25837209391');
 
 INSERT INTO Sala
-    VALUES(,'Sala Blu', 12, '925837209391');
+    VALUES(,'Sala Blu', 12, '25837209391');
 
 INSERT INTO Sala
-    VALUES(,'Sala Rosa', 12, '925837209391');
+    VALUES(,'Sala Rosa', 12, '25837209391');
 
 INSERT INTO Sala
-    VALUES(,'Sala Verde', 8, '925837209391');
+    VALUES(,'Sala Verde', 8, '25837209391');
 
 INSERT INTO Sala
-    VALUES(,'Sala Magnum', 22, '925837209391');
+    VALUES(,'Sala Magnum', 22, '25837209391');
 
 INSERT INTO Sala
-    VALUES(,'Londra', 8, '296402817640');
+    VALUES(,'Londra', 8, '96402817640');
 
 INSERT INTO Sala
-    VALUES(,'Bruxel', 22, '296402817640');
+    VALUES(,'Bruxel', 22, '96402817640');
 
 INSERT INTO Sala
-    VALUES(,'Prima', 22, '296402817611');
+    VALUES(,'Prima', 22, '29640281761');
 
 INSERT INTO Sala
-    VALUES(,'Seconda', 8, '296402817611');
+    VALUES(,'Seconda', 8, '29640281761');
 
 INSERT INTO Sala
-    VALUES(,'Terza', 22, '296402817611');
+    VALUES(,'Terza', 22, '29640281761');
 
 INSERT INTO Sala
-    VALUES(,'B', 22, '902754019286');
+    VALUES(,'B', 22, '90275401928');
 
 INSERT INTO Sala
-    VALUES(,'D', 8, '902754019286');
+    VALUES(,'D', 8, '90275401928');
 
 INSERT INTO Sala
-    VALUES(,'C', 22, '902754019286');
+    VALUES(,'C', 22, '90275401928');
 
 INSERT INTO Sala
-    VALUES(,'Nobel', 12, '1239045681276');
+    VALUES(,'Nobel', 12, '23904568127');
 
 INSERT INTO Sala
-    VALUES(,'Palma', 28, '1239045681276');
+    VALUES(,'Palma', 28, '23904568127');
 
 INSERT INTO Sala
-    VALUES(,'Oscar', 42, '1239045681276');
+    VALUES(,'Oscar', 42, '23904568127');
 
 INSERT INTO Sala
-    VALUES(,'Sala Rossa', 32, '091287528016');
+    VALUES(,'Sala Rossa', 32, '09128752801');
 
 INSERT INTO Sala
-    VALUES(,'Piccola', 10, '109982085671');
+    VALUES(,'Piccola', 10, '10998208567');
 
 INSERT INTO Sala
-    VALUES(,'Grande', 19, '109982085671');
+    VALUES(,'Grande', 19, '10998208567');
