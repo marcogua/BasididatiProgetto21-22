@@ -82,6 +82,27 @@ CREATE TABLE sala(
         CHECK (p_iva ~ '^[0-9]*$')
 );
 
+--Trigger per settare la chiave primaria automaticamente
+CREATE OR REPLACE FUNCTION SalaPK()
+    RETURNS TRIGGER
+AS $$
+DECLARE
+    pk sala.codiceSala%TYPE;
+BEGIN
+	SELECT MAX(codiceSala) + 1 into pk FROM sala;
+    IF(NEW.codiceSala != pk)THEN
+        NEW.codiceSala := pk;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER SalaPK
+BEFORE INSERT
+ON sala
+FOR EACH ROW
+EXECUTE PROCEDURE SalaPK();
+
 --Creazione tabella TAVOLA
 CREATE TABLE tavola(
 --Numero che distingue univocamente un tavolo tipo Stringa Not Null Unique
@@ -100,6 +121,27 @@ CREATE TABLE tavola(
                 ON UPDATE CASCADE
                 ON DELETE CASCADE
 );
+
+--Trigger per settare la chiave primaria automaticamente
+CREATE OR REPLACE FUNCTION TavolaPK()
+    RETURNS TRIGGER
+AS $$
+DECLARE
+    pk tavola.numeroTavola%TYPE;
+BEGIN
+	SELECT MAX(numeroTavola) + 1 into pk FROM tavola;
+    IF(NEW.numeroTavola != pk)THEN
+        NEW.numeroTavola := pk;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER TavolaPK
+BEFORE INSERT
+ON tavola
+FOR EACH ROW
+EXECUTE PROCEDURE TavolaPK();
 
 --Creazione tabella VICINANZA
 CREATE TABLE vicinanza(
@@ -142,6 +184,27 @@ CREATE TABLE tavolata(
                 ON DELETE CASCADE
 );
 
+--Trigger per settare la chiave primaria automaticamente
+CREATE OR REPLACE FUNCTION TavolataPK()
+    RETURNS TRIGGER
+AS $$
+DECLARE
+    pk tavolata.idTavolata%TYPE;
+BEGIN
+	SELECT MAX(idTavolata) + 1 into pk FROM tavolata;
+    IF(NEW.idTavolata != pk)THEN
+        NEW.idTavolata := pk;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER TavolataPK
+BEFORE INSERT
+ON tavolata
+FOR EACH ROW
+EXECUTE PROCEDURE TavolataPK();
+
 --Creazione tabella AVVENTORE
 CREATE TABLE avventore(
 --Numero della carta di indentià dell'avventore tipo Stringa Not Null Unique
@@ -183,6 +246,27 @@ CREATE TABLE segnalazione(
                 ON DELETE CASCADE
 );
 
+--Trigger per settare la chiave primaria automaticamente
+CREATE OR REPLACE FUNCTION SegnalazionePK()
+    RETURNS TRIGGER
+AS $$
+DECLARE
+    pk segnalazione.idSegnalazione%TYPE;
+BEGIN
+	SELECT MAX(idSegnalazione) + 1 into pk FROM sengalazione;
+    IF(NEW.idSegnalazione != pk)THEN
+        NEW.idSegnalazione := pk;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER SegnalazionePK
+BEFORE INSERT
+ON segnalazione
+FOR EACH ROW
+EXECUTE PROCEDURE SengnalazionePK();
+
 --Creazione tabella PERSONALE
 CREATE TABLE personale(
 --Numero che idetifica univocamente ogni membro del peronale tipo Stringa Not Null
@@ -193,6 +277,27 @@ CREATE TABLE personale(
     CONSTRAINT PK_personale
         PRIMARY KEY(numeroOpt)
 );
+
+--Trigger per settare la chiave primaria automaticamente
+CREATE OR REPLACE FUNCTION PersonalePK()
+    RETURNS TRIGGER
+AS $$
+DECLARE
+    pk personale.numeroOpt%TYPE;
+BEGIN
+	SELECT MAX(numeroOpt) + 1 into pk FROM personale;
+    IF(NEW.numeroOpt != pk)THEN
+        NEW.numeroOpt := pk;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER PersonalePK
+BEFORE INSERT
+ON personale
+FOR EACH ROW
+EXECUTE PROCEDURE PersonalePK();
 
 --Creazione tabella PERSONA
 CREATE TABLE persona(
