@@ -58,7 +58,7 @@ CREATE TABLE ristorante(
 --Creazione tabella SALA
 CREATE TABLE sala(
 --Codice univoco che identifica una sala tipo Stringa Not Null Unique
-    codiceSala integer NOT NULL IDENTITY(1,1),
+    codiceSala integer NOT NULL DEFAULT 1,
 --Nome della sala tipo Stringa Not Null
     nomeSala character varying(255) NOT NULL,
 --Numero di tavoli presenti nella sala tipo Integer Not Null
@@ -85,7 +85,7 @@ CREATE TABLE sala(
 --Creazione tabella TAVOLA
 CREATE TABLE tavola(
 --Numero che distingue univocamente un tavolo tipo Stringa Not Null Unique
-    numeroTavola integer NOT NULL IDENTITY(1,1),
+    numeroTavola integer NOT NULL DEFAULT 1,
 --Numero massimo di persone che possono stare a quel tavolo tipo Integer Not Null
     numeroPersoneMax integer NOT NULL,
 --Codice della sala dove si trova il tavolo tipo Stringa Not Null
@@ -124,7 +124,7 @@ CREATE TABLE vicinanza(
 --Creazione tabella TAVOLATA
 CREATE TABLE tavolata(
 --Numero che identifica unicovamente una tavolata tipo Stringa Not Null Unique
-    idTavolata integer NOT NULL IDENTITY(1,1),
+    idTavolata integer NOT NULL DEFAULT 1,
 --Data di arrivo della tavolata tipo Date Not Null
     dataArrivo date NOT NULL,
 --Oriario di arrivo della tavolta tipo Time Not Null
@@ -157,7 +157,7 @@ CHECK (numeroCartaIdentita ~ '^[A-Za-z]{2}[0-9]{4}[A-Za-z]{2}.*$')
 --Creazione tabella SEGNALAZIONE
 CREATE TABLE segnalazione(
 --Numero che identifica unicovamente la sengalazione tipo Stringa Not Null Unique
-    idSegnalazione integer NOT NULL IDENTITY(1,1),
+    idSegnalazione integer NOT NULL DEFAULT 1,
 --Stato della persona che ha inviato la sengalazione tipo Stato Not Null
     statoCovid stato NOT NULL,
 --Data della segnalazione tipo Date Not Null
@@ -186,7 +186,7 @@ CREATE TABLE segnalazione(
 --Creazione tabella PERSONALE
 CREATE TABLE personale(
 --Numero che idetifica univocamente ogni membro del peronale tipo Stringa Not Null
-    numeroOpt integer NOT NULL IDENTITY(1,1),
+    numeroOpt integer NOT NULL DEFAULT 1,
 --Mansione assegnata a ogni membro del personale tipo mansione Not Null
     mansione mansione NOT NULL,
 --Creazione della chiave primaria per la tabella personle ovvero numeroOtp
