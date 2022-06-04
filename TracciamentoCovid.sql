@@ -229,7 +229,7 @@ EXECUTE PROCEDURE TavolataPK();
 --Creazione tabella AVVENTORE
 CREATE TABLE AVVENTORE(
 --Numero della carta di indentià dell'avventore tipo Stringa Not Null Unique
-    numeroCartaIdentita character varying(8) NOT NULL,
+    numeroCartaIdentita character varying(9) NOT NULL,
 
 --Check per controllare che il numeriCartaIdentita sia conforme alla carta di indetita nuova
     CONSTRAINT CHK_numeroCartaIdentitaAvventore
@@ -344,9 +344,9 @@ CREATE TABLE PERSONA(
 --Numero di telefono della persona tipo Stringa Not Null Unique
     telefono character varying(10) NOT NULL UNIQUE,
 --Numero che identifica univocamente un mebro del personale tipo Stringa Not Null Unique
-    numeroOpt integer NOT NULL UNIQUE,
+    numeroOpt integer UNIQUE,
 --Numero di carta di identità che identifica univocamente una persona tipo Stringa Not Null Unique
-    numeroCartaIdentita character varying(9) NOT NULL UNIQUE,
+    numeroCartaIdentita character varying(9) UNIQUE,
 --Check per controllare che il nome contenga solo lettere
     CONSTRAINT CHK_nomePersona
         CHECK (nome ~ '^[A-Za-z]*$'),
