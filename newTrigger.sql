@@ -111,3 +111,29 @@ BEFORE INSERT OR UPDATE
 ON tavolata
 FOR EACH ROW
 EXECUTE PROCEDURE controllaAssegnazione();
+
+--Trigger che controlla che il numero di persone inserite non ecceda il numero di persone del tavolo
+CREATE OR REPLACE FUNCTION controllaTavolo()
+    RETURNS TRIGGER
+AS $$
+DECLARE
+	count integer;
+	limitePersone integer;
+	nTavola integer;
+    BEGIN
+		SELECT numeroTavolata into nTavola FROM tavolata WHERE idTavolata = NEW.idTavolata;
+		SELECT numeroPersoneMax into limitePersone FROM tavola WHERE numeroTavola = nTavola;
+		SELECT COUNT(*) INTO count FROM partecipa WHERE idtavolata = NEW.idTavolata;
+		IF(count >= limitePersone)THEN
+			RETURN NULL;
+		END IF;
+	RETURN NEW;
+    COMMIT;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER controllaTavolo
+BEFORE INSERT OR UPDATE
+ON partecipa
+FOR EACH ROW
+EXECUTE PROCEDURE controllaTavolo();
