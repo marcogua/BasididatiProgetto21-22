@@ -86,3 +86,27 @@ ON segnalazione
 FOR EACH ROW
 EXECUTE PROCEDURE controllaSegnalazione();
 
+--Trigger per l'inserimento della tavolata contolla che non esista gia tavolata assegnata a quel tavolo a quell'ora e data
+CREATE OR REPLACE FUNCTION controllaAssegnazione()
+    RETURNS TRIGGER
+AS $$
+DECLARE
+	dataCorrente date;
+	oraCorrente TIME;
+	tavola integer;
+    BEGIN
+		SELECT CAST(NOW() AS DATE) INTO dataCorrente;
+		SELECT CAST(NOW() AS TIME) INTO oraCorrente;
+		IF(NEW.dataarrivo >= dataCorrente AND NEW.orarioArrivo >= oraCorrente)THEN
+			RETURN NULL;
+		END IF;
+	RETURN NEW;
+    COMMIT;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER controllaAssegnazione
+BEFORE INSERT OR UPDATE
+ON tavolata
+FOR EACH ROW
+EXECUTE PROCEDURE controllaAssegnazione();
