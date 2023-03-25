@@ -8,7 +8,7 @@ DECLARE
     BEGIN
 		SELECT CAST(NOW() AS DATE) INTO dataCorrente;
 		SELECT CAST(NOW() AS TIME) INTO oraCorrente;
-		IF(NEW.dataarrivo >= dataCorrente AND NEW.orarioArrivo >= oraCorrente)THEN
+		IF(NEW.dataarrivo <= dataCorrente AND NEW.orarioArrivo <= oraCorrente)THEN
 			RETURN NULL;
 			--Questa cosa l'ho messa ma non vuole funzionare
 			RAISE NOTICE 'Data inserita non valida perchè gia passata';
@@ -91,15 +91,16 @@ CREATE OR REPLACE FUNCTION controllaAssegnazione()
     RETURNS TRIGGER
 AS $$
 DECLARE
-	dataCorrente date;
-	oraCorrente TIME;
-	tavola integer;
+	dataPrenotazione DATE;
+	oraPrenotazioneTMP TIME;
+	tavola INTEGER;
     BEGIN
-		SELECT CAST(NOW() AS DATE) INTO dataCorrente;
-		SELECT CAST(NOW() AS TIME) INTO oraCorrente;
-		IF(NEW.dataarrivo >= dataCorrente AND NEW.orarioArrivo >= oraCorrente)THEN
-			RETURN NULL;
-		END IF;
+		dataPrenotazione = NEW.dataarrivo;
+		tavola = NEW.numeroTavolata;
+		oraPrenotazioneTMP = NEW.orarioArrivo;
+			IF EXISTS (SELECT 1 FROM tavolata WHERE orarioArrivo BETWEEN oraPrenotazioneTMP - interval '59 minutes' AND oraPrenotazioneTMP + interval '59 minutes' AND numerotavolata = tavola)THEN
+				RETURN NULL;
+			END IF;
 	RETURN NEW;
     COMMIT;
 END;
