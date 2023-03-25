@@ -279,7 +279,7 @@ AS $$
 DECLARE
     pk segnalazione.idSegnalazione%TYPE;
 BEGIN
-	SELECT MAX(idSegnalazione) + 1 into pk FROM sengalazione;
+	SELECT MAX(idSegnalazione) + 1 into pk FROM segnalazione;
     IF(NEW.idSegnalazione != pk)THEN
         NEW.idSegnalazione := pk;
     END IF;
