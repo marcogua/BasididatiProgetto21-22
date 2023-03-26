@@ -155,10 +155,7 @@ DECLARE
 		SELECT numerotavoli into limiteTavolo FROM sala WHERE codicesala = numSala;
 		SELECT COUNT(*) INTO count FROM tavola WHERE codicesala = NEW.codicesala;
 		IF(count >= limiteTavolo)THEN
-			UPDATE sala 
-				SET numerotavoli = count +1
-				WHERE sala.codicesala = NEW.codicesala;
-			RETURN NEW;
+			RETURN NULL;
 		END IF;
 	RETURN NEW;
     COMMIT;
