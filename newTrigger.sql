@@ -128,6 +128,7 @@ DECLARE
 			--Eliminazione dei riferimenti esistenti in ecesso
 			DELETE FROM partecipa WHERE idtavolata = NEW.idTavolata;
 			DELETE FROM tavolatata WHERE idtavolata = NEW.idTavolata;
+			--Commento di prova
 			RETURN NULL;
 		END IF;
 	RETURN NEW;
