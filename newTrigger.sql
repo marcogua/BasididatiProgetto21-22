@@ -148,25 +148,16 @@ CREATE OR REPLACE FUNCTION controllaSala()
     RETURNS TRIGGER
 AS $$
 DECLARE
-	counte integer;
+	count integer;
 	limiteTavolo integer;
 	numSala integer;
     BEGIN
-		SELECT codicesala into numSala FROM tavola WHERE codicesala = NEW.codicesala;
-		SELECT numerotavoli into limiteTavolo FROM sala WHERE codicesala = numSala;
-		SELECT COUNT(*) INTO counte FROM tavola WHERE codicesala = NEW.codicesala;
-		IF(counte >= limiteTavolo)THEN
-			UPDATE sala 
-				SET numerotavoli = counte + 1
-				WHERE codicesala = NEW.codicesala;
-			RETURN NEW;
-		END IF;
-		IF(counte <= limiteTavolo) THEN
-			UPDATE sala 
-				SET numerotavoli = counte - 1
-				WHERE codicesala = NEW.codicesala;
-			RETURN NEW;
-		END IF;
+		SELECT numeroTavoli INTO count FROM sala WHERE codiceSala = NEW.codiceSala;
+		UPDATE sala
+		SET numeroTavoli = count + 1
+		WHERE codiceSala = NEW.codiceSala;
+		RETURN NEW; 
+	COMMIT;
 END;
 
 $$ LANGUAGE plpgsql;
@@ -176,3 +167,26 @@ BEFORE INSERT OR UPDATE
 ON tavola
 FOR EACH ROW
 EXECUTE PROCEDURE controllaSala();
+
+--Trigger che controlla l'eliminazione di un tavolo e aggiorna i valori in sala
+CREATE OR REPLACE FUNCTION rimozioneTavoloSala()
+    RETURNS TRIGGER
+AS $$
+DECLARE
+	count integer;
+    BEGIN
+		SELECT COUNT(*) INTO count FROM tavola WHERE codiceSala = OLD.codiceSala;
+		UPDATE sala
+		SET numerotavoli = count
+		WHERE codicesala = OLD.codiceSala;
+		RETURN OLD;
+	COMMIT;
+END;
+
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER rimozioneTavoloSala
+AFTER DELETE
+ON tavola
+FOR EACH ROW
+EXECUTE PROCEDURE rimozioneTavoloSala();
