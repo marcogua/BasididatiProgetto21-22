@@ -137,3 +137,30 @@ BEFORE INSERT OR UPDATE
 ON partecipa
 FOR EACH ROW
 EXECUTE PROCEDURE controllaTavolo();
+
+
+--Trigger che controlla che non ci siano più tavoli di quelli che una sala può gestire
+CREATE OR REPLACE FUNCTION controllaSala()
+    RETURNS TRIGGER
+AS $$
+DECLARE
+	count integer;
+	limiteTavolo integer;
+	numSala integer;
+    BEGIN
+		SELECT codicesala into numSala FROM tavola WHERE codicesala = NEW.codicesala;
+		SELECT numerotavoli into limiteTavolo FROM sala WHERE codicesala = numSala;
+		SELECT COUNT(*) INTO count FROM tavola WHERE codicesala = NEW.codicesala;
+		IF(count >= limiteTavolo)THEN
+			RETURN NULL;
+		END IF;
+	RETURN NEW;
+    COMMIT;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER controllaSala
+BEFORE INSERT OR UPDATE
+ON tavola
+FOR EACH ROW
+EXECUTE PROCEDURE controllaSala();
