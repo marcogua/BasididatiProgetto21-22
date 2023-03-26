@@ -125,6 +125,7 @@ DECLARE
 		SELECT numeroPersoneMax into limitePersone FROM tavola WHERE numeroTavola = nTavola;
 		SELECT COUNT(*) INTO count FROM partecipa WHERE idtavolata = NEW.idTavolata;
 		IF(count >= limitePersone)THEN
+			--Eliminazione dei riferimenti esistenti in ecesso
 			DELETE FROM partecipa WHERE idtavolata = NEW.idTavolata;
 			DELETE FROM tavolatata WHERE idtavolata = NEW.idTavolata;
 			RETURN NULL;
