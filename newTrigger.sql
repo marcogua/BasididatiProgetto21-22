@@ -148,22 +148,27 @@ CREATE OR REPLACE FUNCTION controllaSala()
     RETURNS TRIGGER
 AS $$
 DECLARE
-	count integer;
+	counte integer;
 	limiteTavolo integer;
 	numSala integer;
     BEGIN
 		SELECT codicesala into numSala FROM tavola WHERE codicesala = NEW.codicesala;
 		SELECT numerotavoli into limiteTavolo FROM sala WHERE codicesala = numSala;
-		SELECT COUNT(*) INTO count FROM tavola WHERE codicesala = NEW.codicesala;
-		IF(count >= limiteTavolo)THEN
+		SELECT COUNT(*) INTO counte FROM tavola WHERE codicesala = NEW.codicesala;
+		IF(counte >= limiteTavolo)THEN
 			UPDATE sala 
-				SET sala.numerotavoli = count + 1
-				WHERE sala.cosicesala = NEW.codicesala;
+				SET numerotavoli = counte + 1
+				WHERE codicesala = NEW.codicesala;
 			RETURN NEW;
 		END IF;
-	RETURN NEW;
-    COMMIT;
+		IF(counte <= limiteTavolo) THEN
+			UPDATE sala 
+				SET numerotavoli = counte - 1
+				WHERE codicesala = NEW.codicesala;
+			RETURN NEW;
+		END IF;
 END;
+
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE TRIGGER controllaSala
