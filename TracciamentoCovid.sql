@@ -4,12 +4,13 @@
 --Creazione delle enumerazioni
 
 --Enumerazione per la tipologia di mansioni
-CREATE DOMAIN mansione AS character varying(16)
+CREATE DOMAIN mansione AS character varying(20)
     CHECK(
         VALUE = 'Barman'
         OR VALUE = 'Cameriere'
         OR VALUE = 'Cuoco'
         OR VALUE = 'DirettoreDiSala'
+        OR VALUE = 'Non ancora assegnato'
 );
 
 /*
@@ -63,7 +64,7 @@ CREATE TABLE SALA(
 --Nome della sala tipo Stringa Not Null
     nomeSala character varying(255) NOT NULL,
 --Numero di tavoli presenti nella sala tipo Integer Not Null
-    numeroTavoli integer NOT NULL,
+    totTavoli integer NOT NULL,
 --Numero di partita iva del ristorante tipo Striga Not Null
     p_iva character varying(11) NOT NULL,
 --Check per controllare che il nomeSala contenga solo lettere
@@ -112,9 +113,9 @@ EXECUTE PROCEDURE SalaPK();
 --Creazione tabella TAVOLA
 CREATE TABLE tavola(
 --Numero che distingue univocamente un tavolo tipo Stringa Not Null Unique
-    numeroTavola integer NOT NULL DEFAULT 1,
+    numeroTavolo integer NOT NULL DEFAULT 1,
 --Numero massimo di persone che possono stare a quel tavolo tipo Integer Not Null
-    numeroPersoneMax integer NOT NULL,
+    numeroMaxPersone integer NOT NULL,
 --Codice della sala dove si trova il tavolo tipo Stringa Not Null
     codiceSala integer NOT NULL
 );
@@ -122,7 +123,7 @@ CREATE TABLE tavola(
 --Crea i vincoli di chiave primaria ed esterna
 ALTER TABLE TAVOLA
     ADD CONSTRAINT PK_tavola
-        PRIMARY KEY(numeroTavola),
+        PRIMARY KEY(numeroTavolo),
     ADD CONSTRAINT FK_tavola
         FOREIGN KEY(codiceSala)
             REFERENCES sala(codiceSala)
@@ -134,11 +135,11 @@ CREATE OR REPLACE FUNCTION TavolaPK()
     RETURNS TRIGGER
 AS $$
 DECLARE
-    pk tavola.numeroTavola%TYPE;
+    pk tavola.numeroTavolo%TYPE;
 BEGIN
-	SELECT MAX(numeroTavola) + 1 into pk FROM tavola;
-    IF(NEW.numeroTavola != pk)THEN
-        NEW.numeroTavola := pk;
+	SELECT MAX(numeroTavolo) + 1 into pk FROM tavola;
+    IF(NEW.numeroTavolo != pk)THEN
+        NEW.numeroTavolo := pk;
     END IF;
     RETURN NEW;
 END;
@@ -166,12 +167,12 @@ CREATE TABLE VICINANZA(
 ALTER TABLE VICINANZA
     ADD CONSTRAINT FK_vicinanza1
         FOREIGN KEY(ntc)
-            REFERENCES tavola(numeroTavola)
+            REFERENCES tavola(numeroTavolo)
                 ON UPDATE CASCADE
                 ON DELETE CASCADE,
     ADD CONSTRAINT FK_vicinanza2
         FOREIGN KEY(nts)
-            REFERENCES tavola(numeroTavola)
+            REFERENCES tavola(numeroTavolo)
                 ON UPDATE CASCADE
                 ON DELETE CASCADE;
 
@@ -188,7 +189,7 @@ CREATE TABLE TAVOLATA(
 --Oriario di arrivo della tavolta tipo Time Not Null
     orarioArrivo time NOT NULL,
 --Numero che idetifica univocamente la tavola assengata tipo Stringa Not Null
-    numeroTavolata integer NOT NULL
+    numeroTavolo integer NOT NULL
 );
 
 --Crea i vincoli di chiave primaria ed esterna
@@ -196,8 +197,8 @@ ALTER TABLE TAVOLATA
     ADD CONSTRAINT PK_tavolata
         PRIMARY KEY(idTavolata),
     ADD CONSTRAINT FK_tavolata
-        FOREIGN KEY(numeroTavolata)
-            REFERENCES tavola(numeroTavola)
+        FOREIGN KEY(numeroTavolo)
+            REFERENCES tavola(numeroTavolo)
                 ON UPDATE CASCADE
                 ON DELETE CASCADE;
 
@@ -252,9 +253,9 @@ CREATE TABLE SEGNALAZIONE(
 --Data della segnalazione tipo Date Not Null
     dataSegnalazione date NOT NULL,
 --Tavolata a cui ha partecipato la sengalazione tipo Stringa Not Null
-    tavolata integer NOT NULL,
+    idTavolata integer NOT NULL,
 --Persona che ha fatto la segnalazione
-    numeroPersona character varying(9) NOT NULL
+    numeroCartaIdentita character varying(9) NOT NULL
 );
 
 --Crea i vincoli di chiave primaria ed esterna
@@ -262,12 +263,12 @@ ALTER TABLE SEGNALAZIONE
     ADD CONSTRAINT PK_segnalazione
         PRIMARY KEY(idSegnalazione),
     ADD CONSTRAINT FK_segnalazione
-        FOREIGN KEY(tavolata)
+        FOREIGN KEY(idTavolata)
             REFERENCES tavolata(idTavolata)
                 ON UPDATE CASCADE
                 ON DELETE CASCADE,
     ADD CONSTRAINT FK_segnalazione2
-        FOREIGN KEY(numeroPersona)
+        FOREIGN KEY(numeroCartaIdentita)
             REFERENCES avventore(numeroCartaIdentita)
                 ON UPDATE CASCADE
                 ON DELETE CASCADE;
@@ -373,29 +374,6 @@ ALTER TABLE PERSONA
             REFERENCES avventore(numeroCartaIdentita)
                 ON UPDATE CASCADE
                 ON DELETE CASCADE;
-                
---Trigger per l'inserimento di personale e avventore
-CREATE OR REPLACE FUNCTION InsertPersonaAvventore()
-    RETURNS TRIGGER
-AS $$
-DECLARE
-    BEGIN
-	IF(NEW.numeroOpt IS NOT NULL)THEN
-        	INSERT INTO personale VALUES (NEW.numeroOpt, 'Cuoco');
-        	UPDATE persona SET numeroOpt = NEW.numeroOpt WHERE telefono = OLD.telefono;
-		END IF;
-        INSERT INTO avventore VALUES (NEW.numeroCartaIdentita);
-        UPDATE persona SET numeroCartaIdentita = OLD.numeroCartaIdentita WHERE telefono = OLD.telefono;
-	RETURN NEW;
-    COMMIT;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE TRIGGER InsertPersonaleAvventore
-BEFORE INSERT
-ON persona
-FOR EACH ROW
-EXECUTE PROCEDURE InsertPersonaAvventore();
 
 /*
 *TABELLA: SERVITO
@@ -432,7 +410,6 @@ CREATE TABLE PARTECIPA(
     idTavolata integer NOT NULL,
 --Numero carta di identità che identifica univocamente una persona tipo Stringa Not Null
     numeroCartaIdentita character varying(9) NOT NULL
-
 );
 
 --Crea i vincoli di chiave esterna

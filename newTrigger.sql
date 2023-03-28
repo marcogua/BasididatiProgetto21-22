@@ -10,8 +10,6 @@ DECLARE
 		SELECT CAST(NOW() AS TIME) INTO oraCorrente;
 		IF(NEW.dataarrivo <= dataCorrente AND NEW.orarioArrivo <= oraCorrente)THEN
 			RETURN NULL;
-			--Questa cosa l'ho messa ma non vuole funzionare
-			RAISE NOTICE 'Data inserita non valida perchè gia passata';
 		END IF;
 	RETURN NEW;
     COMMIT;
@@ -72,8 +70,8 @@ CREATE OR REPLACE FUNCTION controllaSegnalazione()
 AS $$
 DECLARE
     BEGIN
-		IF NOT EXISTS (SELECT 0 FROM partecipa WHERE (idtavolata = NEW.tavolata AND numerocartaidentita = NEW.numeropersona))THEN
-		RETURN NULL;
+		IF NOT EXISTS (SELECT 0 FROM partecipa WHERE (idtavolata = NEW.idTavolata AND numerocartaidentita = NEW.numerocartaidentita))THEN
+			RETURN NULL;
 		END IF;
 	RETURN NEW;
     COMMIT;
@@ -96,9 +94,9 @@ DECLARE
 	tavola INTEGER;
     BEGIN
 		dataPrenotazione = NEW.dataarrivo;
-		tavola = NEW.numeroTavolata;
+		tavola = NEW.numeroTavolo;
 		oraPrenotazioneTMP = NEW.orarioArrivo;
-			IF EXISTS (SELECT 1 FROM tavolata WHERE orarioArrivo BETWEEN oraPrenotazioneTMP - interval '59 minutes' AND oraPrenotazioneTMP + interval '59 minutes' AND numerotavolata = tavola)THEN
+			IF EXISTS (SELECT 1 FROM tavolata WHERE orarioArrivo BETWEEN oraPrenotazioneTMP - interval '59 minutes' AND oraPrenotazioneTMP + interval '59 minutes' AND numeroTavolo = tavola)THEN
 				RETURN NULL;
 			END IF;
 	RETURN NEW;
@@ -121,14 +119,13 @@ DECLARE
 	limitePersone integer;
 	nTavola integer;
     BEGIN
-		SELECT numeroTavolata into nTavola FROM tavolata WHERE idTavolata = NEW.idTavolata;
-		SELECT numeroPersoneMax into limitePersone FROM tavola WHERE numeroTavola = nTavola;
-		SELECT COUNT(*) INTO count FROM partecipa WHERE idtavolata = NEW.idTavolata;
+		SELECT numeroTavolo into nTavola FROM tavolata WHERE idTavolata = NEW.idTavolata;
+		SELECT numeroMaxPersone into limitePersone FROM tavola WHERE numeroTavolo = nTavola;
+		SELECT COUNT(*) INTO count FROM partecipa WHERE idTavolata = NEW.idTavolata;
 		IF(count >= limitePersone)THEN
 			--Eliminazione dei riferimenti esistenti in ecesso
-			DELETE FROM partecipa WHERE idtavolata = NEW.idTavolata;
-			DELETE FROM tavolatata WHERE idtavolata = NEW.idTavolata;
-			--Commento di prova
+			DELETE FROM partecipa WHERE idTavolata = NEW.idTavolata;
+			DELETE FROM tavolatata WHERE idTavolata = NEW.idTavolata;
 			RETURN NULL;
 		END IF;
 	RETURN NEW;
@@ -152,9 +149,9 @@ DECLARE
 	limiteTavolo integer;
 	numSala integer;
     BEGIN
-		SELECT numeroTavoli INTO count FROM sala WHERE codiceSala = NEW.codiceSala;
+		SELECT totTavoli INTO count FROM sala WHERE codiceSala = NEW.codiceSala;
 		UPDATE sala
-		SET numeroTavoli = count + 1
+		SET totTavoli = count + 1
 		WHERE codiceSala = NEW.codiceSala;
 		RETURN NEW; 
 	COMMIT;
@@ -177,7 +174,7 @@ DECLARE
     BEGIN
 		SELECT COUNT(*) INTO count FROM tavola WHERE codiceSala = OLD.codiceSala;
 		UPDATE sala
-		SET numerotavoli = count
+		SET totTavoli = count
 		WHERE codicesala = OLD.codiceSala;
 		RETURN OLD;
 	COMMIT;
@@ -190,3 +187,24 @@ AFTER DELETE
 ON tavola
 FOR EACH ROW
 EXECUTE PROCEDURE rimozioneTavoloSala();
+
+--Trigger che controlla che non ci sia la stessa persona 2 volte allo stesso tavoli
+CREATE OR REPLACE FUNCTION controlloPresenza()
+    RETURNS TRIGGER
+AS $$
+DECLARE
+    BEGIN
+		IF EXISTS (SELECT 1 FROM partecipa WHERE numeroCartaIdentita = NEW.numeroCartaIdentita AND idTavolata = NEW.idTavolata)THEN
+			RETURN NULL;
+		END IF;
+		RETURN NEW;
+	COMMIT;
+END;
+
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER controlloPresenza
+BEFORE INSERT OR UPDATE
+ON partecipa
+FOR EACH ROW
+EXECUTE PROCEDURE controlloPresenza();
