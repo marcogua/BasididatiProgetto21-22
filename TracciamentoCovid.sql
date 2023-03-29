@@ -224,58 +224,6 @@ FOR EACH ROW
 EXECUTE PROCEDURE TavolataPK();
 
 /*
-*TABELLA: SEGNALAZIONE
-*Crea la tabella e i principali vincoli
-*/
---Creazione tabella SEGNALAZIONE
-CREATE TABLE SEGNALAZIONE(
---Numero che identifica univocamente la segnalazione tipo Stringa Not Null Unique
-    idSegnalazione integer NOT NULL DEFAULT 1,
---Data della segnalazione tipo Date Not Null
-    dataSegnalazione date NOT NULL,
---Tavolata a cui ha partecipato la segnalazione tipo Stringa Not Null
-    idTavolata integer NOT NULL,
---Persona che ha fatto la segnalazione
-    numeroCartaIdentita character varying(9) NOT NULL
-);
-
---Crea i vincoli di chiave primaria ed esterna
-ALTER TABLE SEGNALAZIONE
-    ADD CONSTRAINT PK_segnalazione
-        PRIMARY KEY(idSegnalazione),
-    ADD CONSTRAINT FK_segnalazione
-        FOREIGN KEY(idTavolata)
-            REFERENCES tavolata(idTavolata)
-                ON UPDATE CASCADE
-                ON DELETE CASCADE,
-    ADD CONSTRAINT FK_segnalazione2
-        FOREIGN KEY(numeroCartaIdentita)
-            REFERENCES persona(numeroCartaIdentita)
-                ON UPDATE CASCADE
-                ON DELETE CASCADE;
-
---Trigger per settare la chiave primaria automaticamente
-CREATE OR REPLACE FUNCTION SegnalazionePK()
-    RETURNS TRIGGER
-AS $$
-DECLARE
-    pk segnalazione.idSegnalazione%TYPE;
-BEGIN
-	SELECT MAX(idSegnalazione) + 1 into pk FROM segnalazione;
-    IF(NEW.idSegnalazione != pk)THEN
-        NEW.idSegnalazione := pk;
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE TRIGGER SegnalazionePK
-BEFORE INSERT
-ON segnalazione
-FOR EACH ROW
-EXECUTE PROCEDURE SegnalazionePK();
-
-/*
 *TABELLA: PERSONALE
 *Crea la tabella e i principali vincoli
 */
@@ -352,6 +300,58 @@ ALTER TABLE PERSONA
             REFERENCES personale(numeroOpt)
                 ON UPDATE CASCADE
                 ON DELETE CASCADE;
+
+/*
+*TABELLA: SEGNALAZIONE
+*Crea la tabella e i principali vincoli
+*/
+--Creazione tabella SEGNALAZIONE
+CREATE TABLE SEGNALAZIONE(
+--Numero che identifica univocamente la segnalazione tipo Stringa Not Null Unique
+    idSegnalazione integer NOT NULL DEFAULT 1,
+--Data della segnalazione tipo Date Not Null
+    dataSegnalazione date NOT NULL,
+--Tavolata a cui ha partecipato la segnalazione tipo Stringa Not Null
+    idTavolata integer NOT NULL,
+--Persona che ha fatto la segnalazione
+    numeroCartaIdentita character varying(9) NOT NULL
+);
+
+--Crea i vincoli di chiave primaria ed esterna
+ALTER TABLE SEGNALAZIONE
+    ADD CONSTRAINT PK_segnalazione
+        PRIMARY KEY(idSegnalazione),
+    ADD CONSTRAINT FK_segnalazione
+        FOREIGN KEY(idTavolata)
+            REFERENCES tavolata(idTavolata)
+                ON UPDATE CASCADE
+                ON DELETE CASCADE,
+    ADD CONSTRAINT FK_segnalazione2
+        FOREIGN KEY(numeroCartaIdentita)
+            REFERENCES persona(numeroCartaIdentita)
+                ON UPDATE CASCADE
+                ON DELETE CASCADE;
+
+--Trigger per settare la chiave primaria automaticamente
+CREATE OR REPLACE FUNCTION SegnalazionePK()
+    RETURNS TRIGGER
+AS $$
+DECLARE
+    pk segnalazione.idSegnalazione%TYPE;
+BEGIN
+	SELECT MAX(idSegnalazione) + 1 into pk FROM segnalazione;
+    IF(NEW.idSegnalazione != pk)THEN
+        NEW.idSegnalazione := pk;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER SegnalazionePK
+BEFORE INSERT
+ON segnalazione
+FOR EACH ROW
+EXECUTE PROCEDURE SegnalazionePK();
 
 /*
 *TABELLA: SERVITO
