@@ -1,4 +1,6 @@
 --Popolazione del database
+--Questo script popola il database con dati fittizi .
+--Si consiglia di utilizzarlo su un database vuoto, per evitare eventuali problemi dovuti a conflitti .
 
 --Popolazione della tabella RISTORANTE
 INSERT INTO Ristorante
