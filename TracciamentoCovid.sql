@@ -159,7 +159,7 @@ EXECUTE PROCEDURE TavolaPK();
 CREATE TABLE VICINANZA(
 --Numero della tavola corrente tipo Not Null
     ntc integer NOT NULL,
---Numero della tavola succesiva tipo Stringa Not Null
+--Numero della tavola successiva tipo Stringa Not Null
     nts integer NOT NULL
 );
 
@@ -182,13 +182,13 @@ ALTER TABLE VICINANZA
 */
 --Creazione tabella TAVOLATA
 CREATE TABLE TAVOLATA(
---Numero che identifica unicovamente una tavolata tipo Stringa Not Null Unique
+--Numero che identifica univocamente una tavolata tipo Stringa Not Null Unique
     idTavolata integer NOT NULL DEFAULT 1,
 --Data di arrivo della tavolata tipo Date Not Null
     dataArrivo date NOT NULL,
 --Oriario di arrivo della tavolta tipo Time Not Null
     orarioArrivo time NOT NULL,
---Numero che idetifica univocamente la tavola assengata tipo Stringa Not Null
+--Numero che identifica univocamente la tavola assengata tipo Stringa Not Null
     numeroTavolo integer NOT NULL
 );
 
@@ -224,35 +224,16 @@ FOR EACH ROW
 EXECUTE PROCEDURE TavolataPK();
 
 /*
-*TABELLA AVVENTORE
-*Crea la tabella e i pricipali vincoli
-*/
---Creazione tabella AVVENTORE
-CREATE TABLE AVVENTORE(
---Numero della carta di indentià dell'avventore tipo Stringa Not Null Unique
-    numeroCartaIdentita character varying(9) NOT NULL,
-
---Check per controllare che il numeriCartaIdentita sia conforme alla carta di indetita nuova
-    CONSTRAINT CHK_numeroCartaIdentitaAvventore
-CHECK (numeroCartaIdentita ~ '^[A-Za-z]{2}[0-9]{5}[A-Za-z]{2}.*$')
-);
-
---Crea il vincolo di chiave primaria
-ALTER TABLE AVVENTORE
-    ADD CONSTRAINT PK_avventore
-        PRIMARY KEY(numeroCartaIdentita);
-
-/*
 *TABELLA: SEGNALAZIONE
 *Crea la tabella e i principali vincoli
 */
 --Creazione tabella SEGNALAZIONE
 CREATE TABLE SEGNALAZIONE(
---Numero che identifica unicovamente la sengalazione tipo Stringa Not Null Unique
+--Numero che identifica univocamente la segnalazione tipo Stringa Not Null Unique
     idSegnalazione integer NOT NULL DEFAULT 1,
 --Data della segnalazione tipo Date Not Null
     dataSegnalazione date NOT NULL,
---Tavolata a cui ha partecipato la sengalazione tipo Stringa Not Null
+--Tavolata a cui ha partecipato la segnalazione tipo Stringa Not Null
     idTavolata integer NOT NULL,
 --Persona che ha fatto la segnalazione
     numeroCartaIdentita character varying(9) NOT NULL
@@ -269,7 +250,7 @@ ALTER TABLE SEGNALAZIONE
                 ON DELETE CASCADE,
     ADD CONSTRAINT FK_segnalazione2
         FOREIGN KEY(numeroCartaIdentita)
-            REFERENCES avventore(numeroCartaIdentita)
+            REFERENCES persona(numeroCartaIdentita)
                 ON UPDATE CASCADE
                 ON DELETE CASCADE;
 
@@ -300,7 +281,7 @@ EXECUTE PROCEDURE SegnalazionePK();
 */
 --Creazione tabella PERSONALE
 CREATE TABLE PERSONALE(
---Numero che idetifica univocamente ogni membro del peronale tipo Stringa Not Null
+--Numero che identifica univocamente ogni membro del personale tipo Stringa Not Null
     numeroOpt integer NOT NULL,
 --Mansione assegnata a ogni membro del personale tipo mansione Not Null
     mansione mansione
@@ -344,7 +325,7 @@ CREATE TABLE PERSONA(
     cognome character varying(64) NOT NULL,
 --Numero di telefono della persona tipo Stringa Not Null Unique
     telefono character varying(10) NOT NULL UNIQUE,
---Numero che identifica univocamente un mebro del personale tipo Stringa Not Null Unique
+--Numero che identifica univocamente un membro del personale tipo Stringa Not Null Unique
     numeroOpt integer UNIQUE,
 --Numero di carta di identità che identifica univocamente una persona tipo Stringa Not Null Unique
     numeroCartaIdentita character varying(9) UNIQUE,
@@ -364,14 +345,11 @@ CREATE TABLE PERSONA(
 
 --Crea i vincoli di chiave esterna
 ALTER TABLE PERSONA
+    ADD CONSTRAINT PK_persona
+        PRIMARY KEY(numeroCartaIdentita),
     ADD CONSTRAINT FK_persona1
         FOREIGN KEY(numeroOpt)
             REFERENCES personale(numeroOpt)
-                ON UPDATE CASCADE
-                ON DELETE CASCADE,
-    ADD CONSTRAINT FK_persona2
-        FOREIGN KEY(numeroCartaIdentita)
-            REFERENCES avventore(numeroCartaIdentita)
                 ON UPDATE CASCADE
                 ON DELETE CASCADE;
 
@@ -421,6 +399,6 @@ ALTER TABLE PARTECIPA
                 ON DELETE CASCADE,
     ADD CONSTRAINT FK_partecipa2
         FOREIGN KEY(numeroCartaIdentita)
-            REFERENCES avventore(numeroCartaIdentita)
+            REFERENCES persona(numeroCartaIdentita)
                 ON UPDATE CASCADE
                 ON DELETE CASCADE;

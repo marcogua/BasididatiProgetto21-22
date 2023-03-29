@@ -22,8 +22,8 @@ ON tavolata
 FOR EACH ROW
 EXECUTE PROCEDURE controllaPrenotazione();
 
---Trigger per l'inserimento di personale e avventore
-CREATE OR REPLACE FUNCTION inserisciPersonaAvventore()
+--Trigger per l'inserimento di personale
+CREATE OR REPLACE FUNCTION inserisciPersonale()
     RETURNS TRIGGER
 AS $$
 DECLARE
@@ -31,18 +31,17 @@ DECLARE
 	IF(NEW.numeroOpt IS NOT NULL)THEN
         	INSERT INTO personale VALUES (NEW.numeroOpt, 'Non ancora assegnato');
         	UPDATE persona SET numeroOpt = NEW.numeroOpt WHERE numeroCartaIdentita = NEW.numeroCartaIdentita;
-		END IF;
-        INSERT INTO avventore VALUES (NEW.numeroCartaIdentita);
+	END IF;
 	RETURN NEW;
     COMMIT;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE TRIGGER InsertPersonaleAvventore
+CREATE OR REPLACE TRIGGER inserisciPersonale
 BEFORE INSERT
 ON persona
 FOR EACH ROW
-EXECUTE PROCEDURE InsertPersonaAvventore();
+EXECUTE PROCEDURE inserisciPersonale();
 
 --Trigger per il controllo di persona
 CREATE OR REPLACE FUNCTION controllaPersona()
