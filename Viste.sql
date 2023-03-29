@@ -11,7 +11,7 @@ CREATE OR REPLACE VIEW AvventoriMensili AS
 CREATE OR REPLACE VIEW AvventoriGiornalieri AS
     SELECT COUNT(idTavolata),date_part('day', dataarrivo) AS Giorno, ristorante.p_iva AS Ristorante
     FROM (((tavolata INNER JOIN tavola 
-		  	ON numeroTavolo = numeroTavolo) INNER JOIN sala 
+		  	ON tavolata.numeroTavolo = tavola.numeroTavolo) INNER JOIN sala 
                 ON tavola.codiceSala = sala.codiceSala) INNER JOIN Ristorante
                     ON sala.p_iva = ristorante.p_iva)
     GROUP BY date_part('day', dataarrivo), ristorante.p_iva; 
