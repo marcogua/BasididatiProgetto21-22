@@ -249,66 +249,14 @@ INSERT INTO vicinanza
 INSERT INTO vicinanza
     VALUES(35, 33);
 
---Popolamento tabella PERSONALE
-INSERT INTO Personale VALUES(1, 'Cameriere');
-INSERT INTO Personale VALUES(2, 'Cameriere');
-INSERT INTO Personale VALUES(3, 'Barman');
-INSERT INTO Personale VALUES(4, 'DirettoreDiSala');
-INSERT INTO Personale VALUES(5, 'Barman');
-INSERT INTO Personale VALUES(6, 'Cameriere');
-INSERT INTO Personale VALUES(7, 'Cameriere');
-INSERT INTO Personale VALUES(8, 'Cameriere');
-INSERT INTO Personale VALUES(9, 'Barman');
-INSERT INTO Personale VALUES(10, 'Cuoco');
-INSERT INTO Personale VALUES(11, 'DirettoreDiSala');
-INSERT INTO Personale VALUES(12, 'DirettoreDiSala');
-INSERT INTO Personale VALUES(13, 'Barman');
-INSERT INTO Personale VALUES(14, 'Cuoco');
-INSERT INTO Personale VALUES(15, 'Barman');
-INSERT INTO Personale VALUES(16, 'Cuoco');
-INSERT INTO Personale VALUES(17, 'DirettoreDiSala');
-INSERT INTO Personale VALUES(18, 'Cameriere');
-INSERT INTO Personale VALUES(19, 'DirettoreDiSala');
-INSERT INTO Personale VALUES(20, 'Cameriere');
-INSERT INTO Personale VALUES(21, 'DirettoreDiSala');
-INSERT INTO Personale VALUES(22, 'Barman');
-INSERT INTO Personale VALUES(23, 'Barman');
-INSERT INTO Personale VALUES(24, 'DirettoreDiSala');
-INSERT INTO Personale VALUES(25, 'DirettoreDiSala');
-INSERT INTO Personale VALUES(26, 'Cuoco');
-INSERT INTO Personale VALUES(27, 'Cameriere');
-INSERT INTO Personale VALUES(28, 'Cameriere');
-INSERT INTO Personale VALUES(29, 'Barman');
-INSERT INTO Personale VALUES(30, 'Barman');
-INSERT INTO Personale VALUES(31, 'Cuoco');
-INSERT INTO Personale VALUES(32, 'DirettoreDiSala');
-INSERT INTO Personale VALUES(33, 'Barman');
-INSERT INTO Personale VALUES(34, 'Cameriere');
-INSERT INTO Personale VALUES(35, 'DirettoreDiSala');
-INSERT INTO Personale VALUES(36, 'Cameriere');
-INSERT INTO Personale VALUES(37, 'Cameriere');
-INSERT INTO Personale VALUES(38, 'Barman');
-INSERT INTO Personale VALUES(39, 'Barman');
-INSERT INTO Personale VALUES(40, 'Cameriere');
-INSERT INTO Personale VALUES(41, 'Cuoco');
-INSERT INTO Personale VALUES(42, 'DirettoreDiSala');
-INSERT INTO Personale VALUES(43, 'Barman');
-INSERT INTO Personale VALUES(44, 'Cameriere');
-INSERT INTO Personale VALUES(45, 'Cameriere');
-INSERT INTO Personale VALUES(46, 'Cameriere');
-INSERT INTO Personale VALUES(47, 'DirettoreDiSala');
-INSERT INTO Personale VALUES(48, 'Cuoco');
-INSERT INTO Personale VALUES(49, 'Barman');
-INSERT INTO Personale VALUES(50, 'Barman');
-
 --Popolamento tabella Persona
 
-INSERT INTO Persona VALUES ('Lola', 'Sims', '6520744414', '1', 'CA23796FX');
-INSERT INTO Persona VALUES ('Emma', 'Green', '7656232037', '2', 'CA62381JF');
-INSERT INTO Persona VALUES ('Lucy', 'Paz', '1558720463', '3', 'CA92067XO');
-INSERT INTO Persona VALUES ('Jean', 'Howe', '8404430663', '4', 'CA91403EB');
-INSERT INTO Persona VALUES ('Jacob', 'Kent', '2797152314', '5', 'CA40632YD');
-INSERT INTO Persona VALUES ('Bernard', 'Ramos', '5820273414', '6', 'CA06473UJ');
+INSERT INTO Persona VALUES ('Loa', 'Sims', '6520744414', '1', 'CA23796FX');
+INSERT INTO Persona VALUES ('Ema', 'Green', '7656232037', '2', 'CA62381JF');
+INSERT INTO Persona VALUES ('Luy', 'Paz', '1558720463', '3', 'CA92067XO');
+INSERT INTO Persona VALUES ('Jen', 'Howe', '8404430663', '4', 'CA91403EB');
+INSERT INTO Persona VALUES ('Jaob', 'Kent', '2797152314', '5', 'CA40632YD');
+INSERT INTO Persona VALUES ('Benard', 'Ramos', '5820273414', '6', 'CA06473UJ');
 INSERT INTO Persona VALUES ('Brian', 'Soto', '5203733803', '7', 'CA15638PM');
 INSERT INTO Persona VALUES ('Tyrone', 'Creighton', '4551404801', '8', 'CA93026TL');
 INSERT INTO Persona VALUES ('Mark', 'Toulouse', '9638137179', '9', 'CA03581BC');
@@ -404,14 +352,66 @@ INSERT INTO Persona VALUES ('Barbara', 'Anderson', '8261623788', NULL, 'CA30579I
 INSERT INTO Persona VALUES ('Wendy', 'Stapleton', '8655803068', NULL, 'CA41796FZ');
 INSERT INTO Persona VALUES ('Althea', 'Fetter', '8535726924', NULL, 'CA59263SG');
 
+--Popolamento tabella PERSONALE
+UPDATE Personale SET mansione = 'Cameriere' WHERE numeroOpt = 1;
+UPDATE Personale SET mansione = 'Cameriere' WHERE numeroOpt = 2;
+UPDATE Personale SET mansione = 'Barman' WHERE numeroOpt = 3;
+UPDATE Personale SET mansione = 'DirettoreDiSala' WHERE numeroOpt = 4;
+UPDATE Personale SET mansione = 'Barman' WHERE numeroOpt = 5;
+UPDATE Personale SET mansione = 'Cameriere' WHERE numeroOpt = 6;
+UPDATE Personale SET mansione = 'Cameriere' WHERE numeroOpt = 7;
+UPDATE Personale SET mansione = 'Cameriere' WHERE numeroOpt = 8;
+UPDATE Personale SET mansione = 'Barman' WHERE numeroOpt = 9;
+UPDATE Personale SET mansione = 'Cuoco' WHERE numeroOpt = 10;
+UPDATE Personale SET mansione = 'DirettoreDiSala' WHERE numeroOpt = 11;
+UPDATE Personale SET mansione = 'DirettoreDiSala' WHERE numeroOpt = 12;
+UPDATE Personale SET mansione = 'Barman' WHERE numeroOpt = 13;
+UPDATE Personale SET mansione = 'Cuoco' WHERE numeroOpt = 14;
+UPDATE Personale SET mansione = 'Barman' WHERE numeroOpt = 15;
+UPDATE Personale SET mansione = 'Cuoco' WHERE numeroOpt = 16;
+UPDATE Personale SET mansione = 'DirettoreDiSala' WHERE numeroOpt = 17;
+UPDATE Personale SET mansione = 'Cameriere' WHERE numeroOpt = 18;
+UPDATE Personale SET mansione = 'DirettoreDiSala' WHERE numeroOpt = 19;
+UPDATE Personale SET mansione = 'Cameriere' WHERE numeroOpt = 20;
+UPDATE Personale SET mansione = 'DirettoreDiSala' WHERE numeroOpt = 21;
+UPDATE Personale SET mansione = 'Barman' WHERE numeroOpt = 22;
+UPDATE Personale SET mansione = 'Barman' WHERE numeroOpt = 23;
+UPDATE Personale SET mansione = 'DirettoreDiSala' WHERE numeroOpt = 24;
+UPDATE Personale SET mansione = 'DirettoreDiSala' WHERE numeroOpt = 25;
+UPDATE Personale SET mansione = 'Cuoco' WHERE numeroOpt = 26;
+UPDATE Personale SET mansione = 'Cameriere' WHERE numeroOpt = 27;
+UPDATE Personale SET mansione = 'Cameriere'WHERE numeroOpt = 28;
+UPDATE Personale SET mansione = 'Barman' WHERE numeroOpt = 29;
+UPDATE Personale SET mansione = 'Barman' WHERE numeroOpt = 30;
+UPDATE Personale SET mansione = 'Cuoco' WHERE numeroOpt = 31;
+UPDATE Personale SET mansione = 'DirettoreDiSala' WHERE numeroOpt = 32;
+UPDATE Personale SET mansione = 'Barman' WHERE numeroOpt = 33;
+UPDATE Personale SET mansione = 'Cameriere' WHERE numeroOpt = 34;
+UPDATE Personale SET mansione = 'DirettoreDiSala' WHERE numeroOpt = 35;
+UPDATE Personale SET mansione = 'Cameriere' WHERE numeroOpt = 36;
+UPDATE Personale SET mansione = 'Cameriere' WHERE numeroOpt = 37;
+UPDATE Personale SET mansione = 'Barman' WHERE numeroOpt = 38;
+UPDATE Personale SET mansione = 'Barman' WHERE numeroOpt = 39;
+UPDATE Personale SET mansione = 'Cameriere' WHERE numeroOpt = 40;
+UPDATE Personale SET mansione = 'Cuoco' WHERE numeroOpt = 41;
+UPDATE Personale SET mansione = 'DirettoreDiSala' WHERE numeroOpt = 42;
+UPDATE Personale SET mansione = 'Barman' WHERE numeroOpt = 43;
+UPDATE Personale SET mansione = 'Cameriere' WHERE numeroOpt = 44;
+UPDATE Personale SET mansione = 'Cameriere' WHERE numeroOpt = 45;
+UPDATE Personale SET mansione = 'Cameriere' WHERE numeroOpt = 46;
+UPDATE Personale SET mansione = 'DirettoreDiSala' WHERE numeroOpt = 47;
+UPDATE Personale SET mansione = 'Cuoco' WHERE numeroOpt = 48;
+UPDATE Personale SET mansione = 'Barman' WHERE numeroOpt = 49;
+UPDATE Personale SET mansione = 'Barman' WHERE numeroOpt = 50;
+
 --Popolamento tabella TAVOLATA
 
-INSERT INTO  tavolata VALUES (1, '2021-07-01', '20:00:00', 2);
-INSERT INTO  tavolata VALUES (2, '2021-07-02', '21:00:00', 5);
-INSERT INTO  tavolata VALUES (3, '2021-07-02', '21:00:00', 6);
-INSERT INTO  tavolata VALUES (4, '2021-07-03', '21:00:00', 12);
-INSERT INTO  tavolata VALUES (5, '2021-07-03', '21:00:00', 13);
-INSERT INTO  tavolata VALUES (6, '2021-07-03', '21:00:00', 14);
+INSERT INTO  tavolata VALUES (1, '2023-07-01', '20:00:00', 2);
+INSERT INTO  tavolata VALUES (2, '2023-07-02', '21:00:00', 5);
+INSERT INTO  tavolata VALUES (3, '2023-07-02', '21:00:00', 6);
+INSERT INTO  tavolata VALUES (4, '2023-07-03', '21:00:00', 12);
+INSERT INTO  tavolata VALUES (5, '2023-07-03', '21:00:00', 13);
+INSERT INTO  tavolata VALUES (6, '2023-07-03', '21:00:00', 14);
 
 --Popolamento tabella PARTECIPA
 

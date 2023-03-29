@@ -29,8 +29,14 @@ AS $$
 DECLARE
     BEGIN
 	IF(NEW.numeroOpt IS NOT NULL)THEN
-        	INSERT INTO personale VALUES (NEW.numeroOpt, 'Non ancora assegnato');
-        	UPDATE persona SET numeroOpt = NEW.numeroOpt WHERE numeroCartaIdentita = NEW.numeroCartaIdentita;
+		IF NOT EXISTS (SELECT 1 FROM persona WHERE numeroCartaIdentita = NEW.numeroCartaIdentita)THEN
+			IF NOT EXISTS (SELECT 1 FROM personale WHERE numeroOpt = NEW.numeroOpt)THEN
+				INSERT INTO personale VALUES (NEW.numeroOpt, 'Non ancora assegnato');
+				RETURN NEW;
+			END IF;
+			RETURN NULL;
+		END IF;
+		RETURN NULL;
 	END IF;
 	RETURN NEW;
     COMMIT;
