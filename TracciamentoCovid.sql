@@ -60,7 +60,7 @@ ADD CONSTRAINT PK_ristorante
 --Creazione tabella SALA
 CREATE TABLE SALA(
 --Codice univoco che identifica una sala tipo Stringa Not Null Unique
-    codiceSala integer NOT NULL DEFAULT 1,
+    codiceSala integer PRIMARY KEY DEFAULT 1,
 --Nome della sala tipo Stringa Not Null
     nomeSala character varying(255) NOT NULL,
 --Numero di tavoli presenti nella sala tipo Integer Not Null
@@ -77,8 +77,6 @@ CREATE TABLE SALA(
 
 --Cra il vincolo di chiave primaria ed esterna
 ALTER TABLE SALA
-    ADD CONSTRAINT PK_sala
-        PRIMARY KEY(codiceSala),
     ADD CONSTRAINT FK_sala
         FOREIGN KEY(p_iva)
             REFERENCES ristorante(p_iva)
@@ -113,7 +111,7 @@ EXECUTE PROCEDURE SalaPK();
 --Creazione tabella TAVOLA
 CREATE TABLE tavola(
 --Numero che distingue univocamente un tavolo tipo Stringa Not Null Unique
-    numeroTavolo integer NOT NULL DEFAULT 1,
+    numeroTavolo integer PRIMARY KEY DEFAULT 1,
 --Numero massimo di persone che possono stare a quel tavolo tipo Integer Not Null
     numeroMaxPersone integer NOT NULL,
 --Codice della sala dove si trova il tavolo tipo Stringa Not Null
