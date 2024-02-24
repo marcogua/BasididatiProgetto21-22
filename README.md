@@ -1,5 +1,12 @@
 # BasididatiProgetto21-22
 
+TRACCIA 1: SISTEMA DI TRACCIAMENTO CONTATTI PER RISTORANTI
+(max 15 progetti, con gruppi di due/tre studenti)
+Si sviluppi un sistema informativo, composto da una base di dati relazionale e da un applicativo Java dotato di GUI (Swing o JavaFX), per la gestione del tracciamento contatti COVID19 in ristoranti. Il sistema permette di gestire più ristoranti, ciascuno con una o più sale. Ciascuna sala, identificata da un nome, contiene uno o più tavoli. Ciascun tavolo è identificato da un codice (univoco per ciascuna sala), da un numero massimo di avventori, e da un elenco di tavoli adiacenti facenti parte della stessa sala. Il sistema permette agli operatori di tenere traccia dell’arrivo di tavolate di avventori. Ciascuna tavolata avrà associato un elenco di avventori (con nome, cognome, numero di carta d’identità e numero di telefono), la data di arrivo, i camerieri che hanno servito la tavolata, e il tavolo che il personale di sala gli ha assegnato. Si assuma che i ristoranti effettuino soltanto servizio serale nella fascia oraria 20 – 22, e quindi che, in ciascuna data, al più una tavolata possa essere associata ad un dato tavolo. Inoltre, il numero di avventori in una tavolata non può essere superiore al numero di posti del tavolo cui è assegnata. Il sistema permette infine di ottenere statistiche, su base mensile e giornaliera, del numero totale di avventori di ciascun ristorante. La visualizzazione di queste statistiche anche tramite grafici è estremamente apprezzata.
+Per i gruppi composti da 3 membri: Il sistema permette, in caso di segnalazione di positività al COVID19 di uno degli avventori, di effettuare interrogazioni per recuperare i nomi e i numeri di telefono degli altri avventori che potrebbero essere stati esposti al virus. In particolare, dati un numero di carta di identità e una data, il sistema recupera i nominativi e i numeri di telefono di tutti gli avventori seduti allo stesso tavolo della persona risultata positiva, nei tavoli immediatamente adiacenti, e nei tavoli adiacenti a questi ultimi.
+
+**********************************************************************************************************************************************************
+
 Questo è il progetto di basi di dati dell'anno 2021/2022
 
 Autori:
